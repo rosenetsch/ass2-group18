@@ -41,5 +41,16 @@ def create_app():
 
     from . import auth
     app.register_blueprint(auth.auth_bp)
+
+    # ERROR HANDLERS HERE (404 and 500)
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html'), 404
+
+    @app.errorhandler(500)
+    def internal_server_error(e):
+        return render_template('500.html'), 500
+
+    return app
     
     return app
