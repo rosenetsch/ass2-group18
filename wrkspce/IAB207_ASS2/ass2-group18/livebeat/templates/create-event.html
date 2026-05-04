@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Event - LiveBeat{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-lg">
+                    <div class="card-body p-5">
+                        <h1 class="card-title mb-2">Create a New Event</h1>
+
+                        <form>
+                            <div class="mb-4">
+                                <label for="eventTitle" class="form-label fw-semibold">Event Title <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-lg" id="eventTitle"
+                                    placeholder="e.g., Summer Music Festival 2026" required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="artistName" class="form-label fw-semibold">Artist/Performer <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-lg" id="artistName"
+                                    placeholder="e.g., The Rolling Stones" required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="eventDescription" class="form-label fw-semibold">Event Description <span
+                                        class="text-danger">*</span></label>
+                                <textarea class="form-control" id="eventDescription" rows="4"
+                                    placeholder="Tell us about your event. What can attendees expect?"
+                                    required></textarea>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Event Image <span
+                                        class="text-danger">*</span></label>
+                                <button type="button" class="btn btn-outline-secondary form-control-lg w-100">
+                                    Choose File
+                                </button>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label for="eventGenre" class="form-label fw-semibold">Genre <span
+                                            class="text-danger">*</span></label>
+                                    <select class="form-select form-select-lg" id="eventGenre" required>
+                                        <option selected disabled>Choose a genre</option>
+                                        <option value="rock">Rock</option>
+                                        <option value="pop">Pop</option>
+                                        <option value="jazz">Jazz</option>
+                                        <option value="rnb">RnB</option>
+                                        <option value="soul">Soul</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="eventCapacity" class="form-label fw-semibold">Capacity <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-lg" id="eventCapacity"
+                                        placeholder="e.g., 5000" required>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label for="eventDate" class="form-label fw-semibold">Event Date <span
+                                            class="text-danger">*</span></label>
+                                    <input type="date" class="form-control form-control-lg" id="eventDate" required>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="eventTime" class="form-label fw-semibold">Event Time <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control form-control-lg" id="eventTime"
+                                        placeholder="e.g., 7:30 PM" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="venueName" class="form-label fw-semibold">Venue Name <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-lg" id="venueName"
+                                    placeholder="e.g., Sydney Opera House" required>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="venueAddress" class="form-label fw-semibold">Venue Address <span
+                                        class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-lg" id="venueAddress"
+                                    placeholder="e.g., 123 Main Street, Brisbane QLD 4000" required>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label for="ticketTypeBasic" class="form-label fw-semibold">Standard Ticket Price
+                                        ($)</label>
+                                    <input type="text" class="form-control form-control-lg" id="ticketTypeBasic"
+                                        placeholder="e.g., 45">
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="acknowledgementCountry" class="form-label fw-semibold">Acknowledgement of
+                                    Country <span class="text-danger">*</span></label>
+                                <select class="form-select form-select-lg" id="acknowledgementCountry" required>
+                                    <option selected disabled>Choose an option</option>
+                                    <option value="none">No Acknowledgement of Country</option>
+                                    <option value="generic">Acknowledgement of Country: generic</option>
+                                    <option value="enhanced">Acknowledgement of Country: enhanced</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                                    <label class="form-check-label" for="termsCheck">
+                                        I agree to the LiveBeat <a href="#">Terms &amp; Conditions</a>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    Create Event
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

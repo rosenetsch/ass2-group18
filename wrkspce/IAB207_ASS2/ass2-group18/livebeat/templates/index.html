@@ -1,1 +1,330 @@
+{% extends 'base.html' %}
 
+{% block title %}LiveBeat - Discover Live Music Events{% endblock %}
+
+{% block content %}
+<section class="lb-hero">
+    <div class="lb-hero-grid"></div>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7 lb-hero-content">
+                <div class="lb-hero-eyebrow">Australia's Go-To Platform</div>
+
+                <h1>
+                    FEEL THE
+                    <span class="highlight">MUSIC.</span>
+                </h1>
+
+                <p>
+                    Find and book your tickets for the hottest live music events across Australia. Over a range of
+                    different genre, LiveBeat is the way to go!
+                </p>
+
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="#events" class="lb-btn-primary">
+                        Browse Events
+                    </a>
+                    <a href="{{ url_for('main.create_event') }}" class="lb-btn-outline">
+                        Create Event
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="lb-section" id="events">
+    <div class="container">
+        <div class="row align-items-end mb-4">
+            <div class="col-md-6">
+                <div class="lb-section-label">All Events</div>
+                <h2 class="lb-section-title mb-0">Upcoming Shows</h2>
+            </div>
+            <div class="col-md-6 mt-3 mt-md-0 d-flex justify-content-md-end"></div>
+        </div>
+
+        <ul class="nav nav-pills lb-genre-wrap" id="genreFilter" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="lb-genre-pill active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all-events"
+                    type="button" role="tab" aria-controls="all-events" aria-selected="true">All Genres</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="lb-genre-pill" id="rnb-tab" data-bs-toggle="tab" data-bs-target="#rnb-events"
+                    type="button" role="tab" aria-controls="rnb-events" aria-selected="false">RnB</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="lb-genre-pill" id="pop-tab" data-bs-toggle="tab" data-bs-target="#pop-events"
+                    type="button" role="tab" aria-controls="pop-events" aria-selected="false">Pop</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="lb-genre-pill" id="rock-tab" data-bs-toggle="tab" data-bs-target="#rock-events"
+                    type="button" role="tab" aria-controls="rock-events" aria-selected="false">Rock</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="lb-genre-pill" id="soul-tab" data-bs-toggle="tab" data-bs-target="#soul-events"
+                    type="button" role="tab" aria-controls="soul-events" aria-selected="false">Soul</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="lb-genre-pill" id="jazz-tab" data-bs-toggle="tab" data-bs-target="#jazz-events"
+                    type="button" role="tab" aria-controls="jazz-events" aria-selected="false">Jazz</button>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="all-events" role="tabpanel" aria-labelledby="all-tab">
+                <div class="row g-4">
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="{{ url_for('main.event_details') }}"
+                            class="lb-event-card d-block h-100 text-decoration-none">
+                            <div class="lb-card-img-wrap">
+                                <img src="{{ url_for('static', filename='images/concert1.jpg') }}" alt="Rock concert">
+                                <span class="lb-card-genre-tag">Rock</span>
+                            </div>
+                            <div class="lb-card-body">
+                                <div class="lb-card-date">Fri 10 Apr 2026</div>
+                                <div class="lb-card-title">Sonic Crush Festival</div>
+                                <div class="lb-card-artist">Redline &amp; The Amps</div>
+                                <div class="lb-card-footer">
+                                    <span class="lb-card-venue">RNA Showgrounds, Brisbane</span>
+                                    <span class="lb-badge lb-badge-open">Open</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="{{ url_for('main.event_details') }}"
+                            class="lb-event-card d-block h-100 text-decoration-none">
+                            <div class="lb-card-img-wrap">
+                                <img src="{{ url_for('static', filename='images/concert2.jpg') }}" alt="Jazz night">
+                                <span class="lb-card-genre-tag">Jazz</span>
+                            </div>
+                            <div class="lb-card-body">
+                                <div class="lb-card-date">Sat 11 Apr 2026</div>
+                                <div class="lb-card-title">Blue Note Sessions</div>
+                                <div class="lb-card-artist">Marcus Trio</div>
+                                <div class="lb-card-footer">
+                                    <span class="lb-card-venue">The Jazzlab, Melbourne</span>
+                                    <span class="lb-badge lb-badge-open">Open</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="{{ url_for('main.event_details') }}"
+                            class="lb-event-card d-block h-100 text-decoration-none">
+                            <div class="lb-card-img-wrap">
+                                <img src="{{ url_for('static', filename='images/concert3.jpg') }}" alt="Pop concert">
+                                <span class="lb-card-genre-tag">Pop</span>
+                            </div>
+                            <div class="lb-card-body">
+                                <div class="lb-card-date">Sun 12 Apr 2026</div>
+                                <div class="lb-card-title">Neon Horizons Tour</div>
+                                <div class="lb-card-artist">Stella Voss</div>
+                                <div class="lb-card-footer">
+                                    <span class="lb-card-venue">Qudos Bank Arena, Sydney</span>
+                                    <span class="lb-badge lb-badge-soldout">Sold Out</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="{{ url_for('main.event_details') }}"
+                            class="lb-event-card d-block h-100 text-decoration-none">
+                            <div class="lb-card-img-wrap">
+                                <img src="{{ url_for('static', filename='images/concert4.jpg') }}" alt="RnB concert">
+                                <span class="lb-card-genre-tag">RnB</span>
+                            </div>
+                            <div class="lb-card-body">
+                                <div class="lb-card-date">Thu 17 Apr 2026</div>
+                                <div class="lb-card-title">Velvet Nights</div>
+                                <div class="lb-card-artist">Layla &amp; The Collective</div>
+                                <div class="lb-card-footer">
+                                    <span class="lb-card-venue">The Fortitude Music Hall, Brisbane</span>
+                                    <span class="lb-badge lb-badge-open">Open</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="{{ url_for('main.event_details') }}"
+                            class="lb-event-card d-block h-100 text-decoration-none">
+                            <div class="lb-card-img-wrap">
+                                <img src="{{ url_for('static', filename='images/concert5.jpg') }}" alt="Soul concert">
+                                <span class="lb-card-genre-tag">Soul</span>
+                            </div>
+                            <div class="lb-card-body">
+                                <div class="lb-card-date">Fri 25 Apr 2025</div>
+                                <div class="lb-card-title">Deep Soul Revue</div>
+                                <div class="lb-card-artist">Isaiah Carter</div>
+                                <div class="lb-card-footer">
+                                    <span class="lb-card-venue">Enmore Theatre, Sydney</span>
+                                    <span class="lb-badge lb-badge-inactive">Inactive</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="{{ url_for('main.event_details') }}"
+                            class="lb-event-card d-block h-100 text-decoration-none">
+                            <div class="lb-card-img-wrap">
+                                <img src="{{ url_for('static', filename='images/concert2.jpg') }}"
+                                    alt="Cancelled jazz event">
+                                <span class="lb-card-genre-tag">Jazz</span>
+                            </div>
+                            <div class="lb-card-body">
+                                <div class="lb-card-date">Sat 2 May 2026</div>
+                                <div class="lb-card-title">Moonlight Brass Night</div>
+                                <div class="lb-card-artist">Harbour City Collective</div>
+                                <div class="lb-card-footer">
+                                    <span class="lb-card-venue">The Triffid, Brisbane</span>
+                                    <span class="lb-badge lb-badge-cancelled">Cancelled</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="rnb-events" role="tabpanel" aria-labelledby="rnb-tab">
+                <div class="row g-4">
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="{{ url_for('main.event_details') }}"
+                            class="lb-event-card d-block h-100 text-decoration-none">
+                            <div class="lb-card-img-wrap">
+                                <img src="{{ url_for('static', filename='images/concert4.jpg') }}" alt="RnB concert">
+                                <span class="lb-card-genre-tag">RnB</span>
+                            </div>
+                            <div class="lb-card-body">
+                                <div class="lb-card-date">Thu 17 Apr 2026</div>
+                                <div class="lb-card-title">Velvet Nights</div>
+                                <div class="lb-card-artist">Layla &amp; The Collective</div>
+                                <div class="lb-card-footer">
+                                    <span class="lb-card-venue">The Fortitude Music Hall, Brisbane</span>
+                                    <span class="lb-badge lb-badge-open">Open</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="pop-events" role="tabpanel" aria-labelledby="pop-tab">
+                <div class="row g-4">
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="{{ url_for('main.event_details') }}"
+                            class="lb-event-card d-block h-100 text-decoration-none">
+                            <div class="lb-card-img-wrap">
+                                <img src="{{ url_for('static', filename='images/concert3.jpg') }}" alt="Pop concert">
+                                <span class="lb-card-genre-tag">Pop</span>
+                            </div>
+                            <div class="lb-card-body">
+                                <div class="lb-card-date">Sun 12 Apr 2026</div>
+                                <div class="lb-card-title">Neon Horizons Tour</div>
+                                <div class="lb-card-artist">Stella Voss</div>
+                                <div class="lb-card-footer">
+                                    <span class="lb-card-venue">Qudos Bank Arena, Sydney</span>
+                                    <span class="lb-badge lb-badge-soldout">Sold Out</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="rock-events" role="tabpanel" aria-labelledby="rock-tab">
+                <div class="row g-4">
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="{{ url_for('main.event_details') }}"
+                            class="lb-event-card d-block h-100 text-decoration-none">
+                            <div class="lb-card-img-wrap">
+                                <img src="{{ url_for('static', filename='images/concert1.jpg') }}" alt="Rock concert">
+                                <span class="lb-card-genre-tag">Rock</span>
+                            </div>
+                            <div class="lb-card-body">
+                                <div class="lb-card-date">Fri 10 Apr 2026</div>
+                                <div class="lb-card-title">Sonic Crush Festival</div>
+                                <div class="lb-card-artist">Redline &amp; The Amps</div>
+                                <div class="lb-card-footer">
+                                    <span class="lb-card-venue">RNA Showgrounds, Brisbane</span>
+                                    <span class="lb-badge lb-badge-open">Open</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="soul-events" role="tabpanel" aria-labelledby="soul-tab">
+                <div class="row g-4">
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="{{ url_for('main.event_details') }}"
+                            class="lb-event-card d-block h-100 text-decoration-none">
+                            <div class="lb-card-img-wrap">
+                                <img src="{{ url_for('static', filename='images/concert5.jpg') }}" alt="Soul concert">
+                                <span class="lb-card-genre-tag">Soul</span>
+                            </div>
+                            <div class="lb-card-body">
+                                <div class="lb-card-date">Fri 25 Apr 2025</div>
+                                <div class="lb-card-title">Deep Soul Revue</div>
+                                <div class="lb-card-artist">Isaiah Carter</div>
+                                <div class="lb-card-footer">
+                                    <span class="lb-card-venue">Enmore Theatre, Sydney</span>
+                                    <span class="lb-badge lb-badge-inactive">Inactive</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="jazz-events" role="tabpanel" aria-labelledby="jazz-tab">
+                <div class="row g-4">
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="{{ url_for('main.event_details') }}"
+                            class="lb-event-card d-block h-100 text-decoration-none">
+                            <div class="lb-card-img-wrap">
+                                <img src="{{ url_for('static', filename='images/concert2.jpg') }}" alt="Jazz night">
+                                <span class="lb-card-genre-tag">Jazz</span>
+                            </div>
+                            <div class="lb-card-body">
+                                <div class="lb-card-date">Sat 11 Apr 2026</div>
+                                <div class="lb-card-title">Blue Note Sessions</div>
+                                <div class="lb-card-artist">Marcus Trio</div>
+                                <div class="lb-card-footer">
+                                    <span class="lb-card-venue">The Jazzlab, Melbourne</span>
+                                    <span class="lb-badge lb-badge-open">Open</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-sm-6 col-lg-4">
+                        <a href="{{ url_for('main.event_details') }}"
+                            class="lb-event-card d-block h-100 text-decoration-none">
+                            <div class="lb-card-img-wrap">
+                                <img src="{{ url_for('static', filename='images/concert2.jpg') }}"
+                                    alt="Cancelled jazz event">
+                                <span class="lb-card-genre-tag">Jazz</span>
+                            </div>
+                            <div class="lb-card-body">
+                                <div class="lb-card-date">Sat 2 May 2026</div>
+                                <div class="lb-card-title">Moonlight Brass Night</div>
+                                <div class="lb-card-artist">Harbour City Collective</div>
+                                <div class="lb-card-footer">
+                                    <span class="lb-card-venue">The Triffid, Brisbane</span>
+                                    <span class="lb-badge lb-badge-cancelled">Cancelled</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

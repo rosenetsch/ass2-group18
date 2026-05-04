@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking History - LiveBeat{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="mb-5">
+            <h1 class="mb-2">My Bookings</h1>
+        </div>
+
+        <div class="mb-4">
+            <ul class="nav nav-tabs nav-fill" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="all-bookings-tab" data-bs-toggle="tab"
+                        data-bs-target="#all-bookings" type="button" role="tab">
+                        All Bookings
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming-bookings"
+                        type="button" role="tab">
+                        Upcoming
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="past-tab" data-bs-toggle="tab" data-bs-target="#past-bookings"
+                        type="button" role="tab">
+                        Past Events
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="all-bookings">
+                <div class="card mb-4 border-0 shadow-sm">
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            <img src="{{ url_for('static', filename='images/concert1.jpg') }}" alt="Midnight Frequency"
+                                class="img-fluid rounded-start h-100 object-fit-cover">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <div class="row align-items-start">
+                                    <div class="col-md-6">
+                                        <h5 class="card-title mb-1">Midnight Frequency</h5>
+                                        <p class="text-muted mb-2">The Velvet Underground Revival</p>
+                                        <p class="mb-2"><strong>Date:</strong> April 18, 2026 at 8:00 PM</p>
+                                        <p class="mb-2"><strong>Booked On:</strong> April 2, 2026 at 3:45 PM</p>
+                                        <p class="mb-2"><strong>Venue:</strong> The Tivoli, Brisbane</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="bg-light p-3 rounded mb-3">
+                                            <p class="mb-2"><strong>Booking ID:</strong> <code>BK20260418001</code></p>
+                                            <p class="mb-2"><strong>Tickets:</strong> 3x VIP</p>
+                                            <p class="mb-0"><strong>Total:</strong> $360.00</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4 border-0 shadow-sm">
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            <img src="{{ url_for('static', filename='images/concert2.jpg') }}" alt="Blue Note Sessions"
+                                class="img-fluid rounded-start h-100 object-fit-cover">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <div class="row align-items-start">
+                                    <div class="col-md-6">
+                                        <h5 class="card-title mb-1">Blue Note Sessions</h5>
+                                        <p class="text-muted mb-2">Marcus Trio</p>
+                                        <p class="mb-2"><strong>Date:</strong> April 11, 2026 at 7:30 PM</p>
+                                        <p class="mb-2"><strong>Booked On:</strong> March 30, 2026 at 11:20 AM</p>
+                                        <p class="mb-2"><strong>Venue:</strong> The Jazzlab, Melbourne</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="bg-light p-3 rounded mb-3">
+                                            <p class="mb-2"><strong>Booking ID:</strong> <code>BK20260411002</code></p>
+                                            <p class="mb-2"><strong>Tickets:</strong> 2x Standard</p>
+                                            <p class="mb-0"><strong>Total:</strong> $130.00</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4 border-0 shadow-sm opacity-75">
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            <img src="{{ url_for('static', filename='images/concert1.jpg') }}" alt="Sonic Crush"
+                                class="img-fluid rounded-start h-100 object-fit-cover">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <div class="row align-items-start">
+                                    <div class="col-md-6">
+                                        <h5 class="card-title mb-1">Sonic Crush Festival</h5>
+                                        <p class="text-muted mb-2">Redline &amp; The Amps</p>
+                                        <p class="mb-2"><strong>Date:</strong> February 15, 2026 at 6:00 PM</p>
+                                        <p class="mb-2"><strong>Booked On:</strong> January 28, 2026 at 6:10 PM</p>
+                                        <p class="mb-2"><strong>Venue:</strong> RNA Showgrounds, Brisbane</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="bg-light p-3 rounded mb-3">
+                                            <p class="mb-2"><strong>Booking ID:</strong> <code>BK20260215003</code></p>
+                                            <p class="mb-2"><strong>Tickets:</strong> 4x Standard</p>
+                                            <p class="mb-0"><strong>Total:</strong> $260.00</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="upcoming-bookings">
+                <div class="card mb-4 border-0 shadow-sm">
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            <img src="{{ url_for('static', filename='images/concert1.jpg') }}" alt="Midnight Frequency"
+                                class="img-fluid rounded-start h-100 object-fit-cover">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <div class="row align-items-start">
+                                    <div class="col-md-6">
+                                        <h5 class="card-title mb-1">Midnight Frequency</h5>
+                                        <p class="text-muted mb-2">The Velvet Underground Revival</p>
+                                        <p class="mb-2"><strong>Date:</strong> April 18, 2026 at 8:00 PM</p>
+                                        <p class="mb-2"><strong>Booked On:</strong> April 2, 2026 at 3:45 PM</p>
+                                        <p class="mb-2"><strong>Venue:</strong> The Tivoli, Brisbane</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="bg-light p-3 rounded mb-3">
+                                            <p class="mb-2"><strong>Booking ID:</strong> <code>BK20260418001</code></p>
+                                            <p class="mb-2"><strong>Tickets:</strong> 3x VIP</p>
+                                            <p class="mb-0"><strong>Total:</strong> $360.00</p>
+                                        </div>
+                                        <p class="text-muted mb-0"><small>3 days until event</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4 border-0 shadow-sm">
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            <img src="{{ url_for('static', filename='images/concert2.jpg') }}" alt="Blue Note"
+                                class="img-fluid rounded-start h-100 object-fit-cover">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <div class="row align-items-start">
+                                    <div class="col-md-6">
+                                        <h5 class="card-title mb-1">Blue Note Sessions</h5>
+                                        <p class="text-muted mb-2">Marcus Trio</p>
+                                        <p class="mb-2"><strong>Date:</strong> April 11, 2026 at 7:30 PM</p>
+                                        <p class="mb-2"><strong>Booked On:</strong> March 30, 2026 at 11:20 AM</p>
+                                        <p class="mb-2"><strong>Venue:</strong> The Jazzlab, Melbourne</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="bg-light p-3 rounded mb-3">
+                                            <p class="mb-2"><strong>Booking ID:</strong> <code>BK20260411002</code></p>
+                                            <p class="mb-2"><strong>Tickets:</strong> 2x Standard</p>
+                                            <p class="mb-0"><strong>Total:</strong> $130.00</p>
+                                        </div>
+                                        <p class="text-muted mb-0"><small>4 days until event</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="past-bookings">
+                <div class="card mb-4 border-0 shadow-sm opacity-75">
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            <img src="{{ url_for('static', filename='images/concert1.jpg') }}" alt="Sonic Crush"
+                                class="img-fluid rounded-start h-100 object-fit-cover">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <div class="row align-items-start">
+                                    <div class="col-md-6">
+                                        <h5 class="card-title mb-1">Sonic Crush Festival</h5>
+                                        <p class="text-muted mb-2">Redline &amp; The Amps</p>
+                                        <p class="mb-2"><strong>Date:</strong> February 15, 2026</p>
+                                        <p class="mb-2"><strong>Booked On:</strong> January 28, 2026 at 6:10 PM</p>
+                                        <p class="mb-2"><strong>Venue:</strong> RNA Showgrounds, Brisbane</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="bg-light p-3 rounded mb-3">
+                                            <p class="mb-2"><strong>Booking ID:</strong> <code>BK20260215003</code></p>
+                                            <p class="mb-2"><strong>Tickets:</strong> 4x Standard</p>
+                                            <p class="mb-0"><strong>Total:</strong> $260.00</p>
+                                        </div>
+                                        <p class="text-muted mb-0"><small>Event completed</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
