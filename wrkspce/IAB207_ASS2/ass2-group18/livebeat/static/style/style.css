@@ -15,6 +15,15 @@
 /* backgroud colour */
 body {
     background-color: #FAFAF8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.lb-page-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Navigation bar  */
@@ -318,6 +327,71 @@ section {
     flex-direction: column;
     height: 100%;
     position: relative;
+
+}
+
+/* Login/Register page */
+.lb-auth-section {
+    background: linear-gradient(135deg, #FAFAF8 0%, #F5F0FF 55%, #FFF8F5 100%);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 3rem 0;
+}
+
+.lb-auth-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--medium-shadow);
+    border: 1px solid rgba(200, 150, 200, 0.2);
+}
+
+@media (max-width: 768px) {
+    .lb-auth-section {
+        align-items: flex-start;
+        padding: 2rem 0;
+    }
+
+    .lb-auth-card {
+        padding: 1.5rem;
+    }
+}
+
+.lb-auth-subtitle {
+    color: #5A4A7F;
+    margin-bottom: 1.25rem;
+}
+
+.lb-auth-card .form-label {
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+.lb-auth-card .form-control {
+    border-radius: 10px;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid #E4D7ED;
+}
+
+.lb-auth-card .form-control:focus {
+    border-color: #CFA9E4;
+    box-shadow: 0 0 0 0.2rem rgba(155, 89, 182, 0.12);
+}
+
+.lb-auth-divider {
+    border-top: 1px solid #F0E6FF;
+}
+
+.lb-auth-register-link {
+    color: #9B59B6;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.lb-auth-register-link:hover {
+    color: #7D3C98;
+    text-decoration: underline;
 }
 
 .lb-event-card:hover {
@@ -458,7 +532,7 @@ section {
     background: linear-gradient(135deg, #F0E6FF 0%, #FFE8E8 100%);
     box-shadow: var(--light-shadow);
     border-top: 1px solid rgba(200, 150, 200, 0.2);
-    margin-top: 3rem;
+    margin-top: 0;
     padding: 1rem 0;
 }
 

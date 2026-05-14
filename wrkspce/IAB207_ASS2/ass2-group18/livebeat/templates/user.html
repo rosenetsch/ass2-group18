@@ -1,21 +1,48 @@
-{% include "base.html" %}
-{% from "bootstrap5/form.html" import render_form %}
-{% block body %}
+{% extends "base.html" %}
 
-<div class="page-header">
-    <h4>{{heading}}</h4>
-</div>
+{% block title %}{{ heading }} | LiveBeat{% endblock %}
 
-<!-- Form rendering is simple and easy if using WTForms and Bootstrap -->
-<div class="col-md-6">
-    {{render_form(form)}}
-</div>
+{% block content %}
+<section class="lb-auth-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="lb-auth-card">
+                    <p class="lb-section-label mb-2">Account</p>
+                    <h2 class="mb-3">{{ heading }}</h2>
+                    <p class="lb-auth-subtitle">Sign in to manage events, bookings, and comments.</p>
 
-<!-- When you have Login form, then show the user a link to register -->
-{% if heading == 'Login' %}
-<div class="col-md-4">
-    <p>New user? <a href="{{url_for('register')}}">Click here</a> to register.</p>
-</div>
-{% endif %}
+                    <form method="post" novalidate>
+                        {{ form.hidden_tag() }}
 
+                        <div class="mb-3">
+                            {{ form.user_name.label(class_="form-label") }}
+                            {{ form.user_name(class_="form-control", placeholder="Enter your username") }}
+                            {% for error in form.user_name.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mb-4">
+                            {{ form.password.label(class_="form-label") }}
+                            {{ form.password(class_="form-control", placeholder="Enter your password") }}
+                            {% for error in form.password.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            {{ form.submit(class_="btn lb-btn-primary", value="Sign In") }}
+                        </div>
+                    </form>
+
+                    <div class="lb-auth-divider my-4"></div>
+                    <p class="mb-0 text-center">New user?
+                        <a class="lb-auth-register-link" href="{{ url_for('auth.register') }}">Register</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

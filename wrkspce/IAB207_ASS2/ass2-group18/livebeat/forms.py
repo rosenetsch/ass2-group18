@@ -1,9 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField
-from wtforms.validators import InputRequired, Length, Email, EqualTo
-from flask_wtf.file import FileRequired, FileField, FileAllowed
-
-ALLOWED_FILE = {"PNG", "JPG", "JPEG", "png", "jpg", "jpeg"}
+from wtforms.fields import SubmitField, StringField, PasswordField
+from wtforms.validators import InputRequired, Length, Email, EqualTo, Regexp
 
 # creates the login information
 class LoginForm(FlaskForm):
@@ -13,12 +10,22 @@ class LoginForm(FlaskForm):
 
  # this is the registration form
 class RegisterForm(FlaskForm):
-    user_name=StringField("User Name", validators=[InputRequired()])
-    email = StringField("Email Address", validators=[Email("Please enter a valid email")])
-    # linking two fields - password should be equal to data entered in confirm
-    password=PasswordField("Password", validators=[InputRequired(),
-                  EqualTo('confirm', message="Passwords should match")])
-    confirm = PasswordField("Confirm Password")
+    first_name = StringField("First Name", validators=[InputRequired("Enter first name")])
+    last_name = StringField("Surname", validators=[InputRequired("Enter surname")])
+    email = StringField(
+        "Email Address",
+        validators=[InputRequired("Enter email address"), Email("Please enter a valid email")],
+    )
+    contact_number = StringField("Contact Number", validators=[InputRequired("Enter contact number")])
+    street_address = StringField("Street Address", validators=[InputRequired("Enter street address")])
+    # password should be equal to the data entered in confirm
+    password=PasswordField("Password", validators=[
+                  InputRequired(),
+                  Length(min=8, message="Password must be at least 8 characters long"),
+                  Regexp(r"^(?=.*[A-Z])(?=.*[^A-Za-z0-9]).+$", message="Password must include at least 1 uppercase letter and 1 symbol"),
+                  EqualTo('confirm', message="Passwords should match")
+                  ])
+    confirm = PasswordField("Confirm Password", validators=[InputRequired("Confirm your password")])
 
     # submit button
     submit = SubmitField("Register")
