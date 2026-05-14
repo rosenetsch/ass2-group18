@@ -29,8 +29,7 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-    # create a user loader function takes userid and returns User
-    # Importing inside the create_app function avoids circular references
+    # Import models so SQLAlchemy is aware of all tables before create_all.
     from .models import User
     @login_manager.user_loader
     def load_user(user_id):
@@ -41,6 +40,10 @@ def create_app():
 
     from . import auth
     app.register_blueprint(auth.auth_bp)
+
+    # Create tables on first run if they do not exist.
+    with app.app_context():
+        db.create_all()
 
     # ERROR HANDLERS HERE (404 and 500)
     @app.errorhandler(404)
