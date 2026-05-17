@@ -1,11 +1,63 @@
 from flask_wtf import FlaskForm
 from wtforms.fields import SubmitField, StringField, PasswordField
 from wtforms.validators import InputRequired, Length, Email, EqualTo, Regexp
+from wtforms.fields import TextAreaField, SelectField, IntegerField, FloatField, DateField, TimeField
+from wtforms.validators import NumberRange
+
+class EventForm(FlaskForm):
+    title = StringField("Event Title", validators=[InputRequired()])
+    artist = StringField("Artist/Performer", validators=[InputRequired()])
+    description = TextAreaField("Event Description", validators=[InputRequired()])
+
+    category = SelectField(
+        "Genre",
+        choices=[
+            ("rock", "Rock"),
+            ("pop", "Pop"),
+            ("jazz", "Jazz"),
+            ("rnb", "RnB"),
+            ("soul", "Soul"),
+            ("other", "Other"),
+        ],
+        validators=[InputRequired()],
+    )
+
+    capacity = IntegerField("Capacity", validators=[InputRequired(), NumberRange(min=1)])
+    date = DateField("Event Date", validators=[InputRequired()])
+    time = TimeField("Event Time", validators=[InputRequired()])
+
+    venue_name = StringField("Venue Name", validators=[InputRequired()])
+    venue_address = StringField("Venue Address", validators=[InputRequired()])
+
+    ticket_price = FloatField("Standard Ticket Price", validators=[InputRequired(), NumberRange(min=0)])
+
+    acknowledgement = SelectField(
+        "Acknowledgement of Country",
+        choices=[
+            ("none", "No Acknowledgement of Country"),
+            ("generic", "Acknowledgement of Country: generic"),
+            ("enhanced", "Acknowledgement of Country: enhanced"),
+        ],
+        validators=[InputRequired()],
+    )
+
+    submit = SubmitField("Create Event")
 
 # creates the login information
 class LoginForm(FlaskForm):
-    user_name=StringField("User Name", validators=[InputRequired('Enter user name')])
-    password=PasswordField("Password", validators=[InputRequired('Enter user password')])
+    email = StringField(
+        "Email Address",
+        validators=[
+            InputRequired("Enter email address"),
+            Email("Please enter a valid email")
+        ]
+    )
+
+    password = PasswordField(
+        "Password",
+        validators=[InputRequired("Enter your password")]
+    )
+
     submit = SubmitField("Login")
 
  # this is the registration form

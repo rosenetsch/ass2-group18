@@ -1,22 +1,26 @@
 {% extends 'base.html' %}
 
-{% block title %}Event Details - LiveBeat{% endblock %}
+{% block title %}{{ event.title }} - LiveBeat{% endblock %}
 
 {% block content %}
 <section class="py-5">
     <div class="container">
         <div class="row g-5">
             <div class="col-lg-7">
-                <img src="{{ url_for('static', filename='images/concert1.jpg') }}" alt="Sonic Crush Festival"
+                <img src="{{ url_for('static', filename='images/' ~ event.image) }}"
+                    alt="{{ event.title }}"
                     class="img-fluid rounded">
+
                 <div class="mt-4">
                     <h5 class="mb-3">Event Information</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><strong>Date:</strong> Friday, April 10, 2026</li>
-                        <li class="mb-2"><strong>Time:</strong> 6:00 PM - 10:00 PM</li>
-                        <li class="mb-2"><strong>Venue:</strong> RNA Showgrounds, Brisbane</li>
-                        <li class="mb-2"><strong>Genre:</strong> Rock</li>
-                        <li class="mb-2"><strong>Capacity:</strong> 2,500 people</li>
+                        <li class="mb-2"><strong>Date:</strong> {{ event.date.strftime('%A, %B %d, %Y') }}</li>
+                        <li class="mb-2"><strong>Time:</strong> {{ event.date.strftime('%I:%M %p') }}</li>
+                        <li class="mb-2"><strong>Venue:</strong> {{ event.venue_name }}</li>
+                        <li class="mb-2"><strong>Address:</strong> {{ event.venue_address }}</li>
+                        <li class="mb-2"><strong>Genre:</strong> {{ event.category|capitalize }}</li>
+                        <li class="mb-2"><strong>Tickets Available:</strong> {{ event.capacity }}</li>
+                        <li class="mb-2"><strong>Ticket Price:</strong> ${{ "%.2f"|format(event.ticket_price) }}</li>
                     </ul>
                 </div>
             </div>
@@ -24,39 +28,46 @@
             <div class="col-lg-5">
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
-                        <h2 class="card-title mb-2">Sonic Crush Festival</h2>
-                        <p class="text-muted mb-4">Redline &amp; The Amps</p>
+                        <h2 class="card-title mb-2">{{ event.title }}</h2>
+                        <p class="text-muted mb-4">{{ event.artist }}</p>
 
                         <div class="alert alert-info mb-4">
-                            <strong>Status:</strong> Open <span class="badge bg-success ms-2">3 tickets remaining</span>
+                            <strong>Status:</strong> {{ event.status }}
                         </div>
 
-                        <p class="mb-4">
-                            Sonic Crush Festival is one of the best rock shows in Brisbane that features amazing
-                            international artist showcasing their talent and songs. The festival will be at RNA
-                            Showgrounds. See you there! Bring a friend !!
-                        </p>
+                        <p class="mb-4">{{ event.description }}</p>
 
-                        <div class="mb-4">
-                            <label for="ticketQuantity" class="form-label"><strong>Ticket quantity:</strong></label>
-                            <input type="number" class="form-control form-control-lg mb-2" id="ticketQuantity"
-                                placeholder="Enter number of tickets" min="1" max="3" required>
-                        </div>
+                        {% if current_user.is_authenticated %}
+                            {% if event.status == "Open" and event.capacity > 0 %}
+                            <form method="POST" action="{{ url_for('main.book_event', event_id=event.id) }}">
+                                <div class="mb-4">
+                                    <label for="ticket_quantity" class="form-label">
+                                        <strong>Ticket quantity:</strong>
+                                    </label>
+                                    <input type="number"
+                                        class="form-control form-control-lg mb-2"
+                                        id="ticket_quantity"
+                                        name="ticket_quantity"
+                                        placeholder="Enter number of tickets"
+                                        min="1"
+                                        max="{{ event.capacity }}"
+                                        value="1"
+                                        required>
+                                </div>
 
-                        <div class="mb-4">
-                            <label for="ticketType" class="form-label"><strong>Ticket type:</strong></label>
-                            <select class="form-select form-select-lg mb-3" id="ticketType">
-                                <option selected>Choose ticket type</option>
-                                <option value="standard">Standard - $65</option>
-                                <option value="vip">VIP - $120</option>
-                                <option value="vvip">VIP+ - $200</option>
-                            </select>
-                        </div>
-
-                        <button type="button" class="btn btn-primary btn-lg w-100 mb-3" data-bs-toggle="modal"
-                            data-bs-target="#bookingModal">
-                            Book Now
-                        </button>
+                                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                                    Book Now
+                                </button>
+                            </form>
+                            {% else %}
+                            <div class="alert alert-warning mb-0">
+                                This event is not currently available for booking.
+                            </div>
+                            {% endif %}
+                        {% else %}
+                        <div class="alert alert-warning">Please sign in to book this event.</div>
+                        <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg w-100">Sign In to Book</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -65,11 +76,14 @@
         <div class="row mt-5">
             <div class="col-lg-8">
                 <h3 class="mb-3">About This Event</h3>
-                <p>
-                    Sonic Crush Festival is one of the best rock shows in Brisbane that features amazing international
-                    artist showcasing their talent and songs. The festival will be at RNA Showgrounds. See you there!
-                    Bring a friend !!
-                </p>
+                <p>{{ event.description }}</p>
+
+                {% if event.acknowledgement %}
+                <div class="alert alert-light border mt-4">
+                    <strong>Acknowledgement of Country:</strong>
+                    {{ event.acknowledgement }}
+                </div>
+                {% endif %}
             </div>
         </div>
 
@@ -78,13 +92,12 @@
                 <h3 class="mb-3">Venue Location</h3>
                 <div class="event-map-container">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2800.3829265644706!2d153.04266!3d-27.509932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b915a8f8f8f8f8f%3A0x8f8f8f8f8f8f8f8f!2sRNA%20Showgrounds!5e0!3m2!1sen!2sau!4v1234567890000"
-                        loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        src="https://www.google.com/maps?q={{ event.venue_address | urlencode }}&output=embed"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
-                <p class="text-muted mt-3">
-                    <strong>RNA Showgrounds, Gregory Terrace, Brisbane QLD 4006</strong>
-                </p>
+                <p class="text-muted mt-3"><strong>{{ event.venue_address }}</strong></p>
             </div>
         </div>
 
@@ -92,89 +105,43 @@
             <div class="col-lg-8">
                 <h3 class="mb-4">Comments</h3>
 
+                {% for comment in comments %}
                 <div class="card mb-4 border-0 bg-light">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start mb-2">
-                            <strong>Lovern Chong</strong>
-                            <small class="text-muted">2 weeks ago</small>
+                            <strong>{{ comment.user.first_name }} {{ comment.user.last_name }}</strong>
+                            <small class="text-muted">{{ comment.date.strftime('%d %b %Y') }}</small>
                         </div>
-                        <p class="mb-0">It was such a good event and hosted very well!! Recommend!!</p>
+                        <p class="mb-0">{{ comment.text }}</p>
                     </div>
                 </div>
+                {% else %}
+                <p class="text-muted">No comments yet. Be the first to comment.</p>
+                {% endfor %}
 
-                <div class="card mb-4 border-0 bg-light">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <strong>Elroy Chong</strong>
-                            <small class="text-muted">1 week ago</small>
-                        </div>
-                        <p class="mb-0">10/10! Would come again hehe</p>
-                    </div>
-                </div>
-
+                {% if current_user.is_authenticated %}
                 <div class="card border-0 shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title mb-3">Leave Your Comment</h5>
-                        <form>
+                        <form method="POST" action="{{ url_for('main.add_comment', event_id=event.id) }}">
                             <div class="mb-3">
-                                <label for="commentName" class="form-label">Your Name</label>
-                                <input type="text" class="form-control" id="commentName" placeholder="Enter your name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="commentText" class="form-label">Your Comment</label>
-                                <textarea class="form-control" id="commentText" rows="4"
-                                    placeholder="Share your experience with this event..."></textarea>
+                                <label for="comment_text" class="form-label">Your Comment</label>
+                                <textarea class="form-control"
+                                    id="comment_text"
+                                    name="comment_text"
+                                    rows="4"
+                                    placeholder="Share your experience with this event..."
+                                    required></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Post Comment</button>
                         </form>
                     </div>
                 </div>
+                {% else %}
+                <div class="alert alert-warning">Please sign in to leave a comment.</div>
+                {% endif %}
             </div>
         </div>
     </div>
 </section>
-
-<div class="modal fade" id="bookingModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Complete Your Booking</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label for="bookingFirstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" id="bookingFirstName">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="bookingLastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="bookingLastName">
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="bookingEmail" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="bookingEmail">
-                    </div>
-                    <div class="mb-3">
-                        <label for="bookingPhone" class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control" id="bookingPhone">
-                    </div>
-                    <div class="alert alert-info">
-                        <strong>Booking Summary:</strong>
-                        <p class="mb-1">Event: Sonic Crush Festival</p>
-                        <p class="mb-1">Date: April 10, 2026</p>
-                        <p class="mb-1">Tickets: Example booking of 2 Standard tickets</p>
-                        <p class="mb-0">Estimated Total: <strong>$130</strong></p>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary">Confirm Booking</button>
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}
