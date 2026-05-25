@@ -17,31 +17,56 @@
                 <a class="navbar-brand lb-logo" href="{{ url_for('main.index') }}">
                     LIVE<span>BEAT</span>
                 </a>
+
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
                     aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="collapse navbar-collapse" id="navMenu">
                     <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+
                         <li class="nav-item">
                             <a class="nav-link {% if request.endpoint == 'main.index' %}active{% endif %}"
                                 href="{{ url_for('main.index') }}">Home</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link {% if request.endpoint == 'main.event_details' %}active{% endif %}"
-                                href="{{ url_for('main.event_details') }}">Events</a>
+                            <a class="nav-link {% if request.endpoint == 'main.index' or request.endpoint == 'main.event_details' %}active{% endif %}"
+                                href="{{ url_for('main.index') }}">Events</a>
                         </li>
+
+
+
+
+                        {% if current_user.is_authenticated %}
+
                         <li class="nav-item">
                             <a class="nav-link {% if request.endpoint == 'main.create_event' %}active{% endif %}"
                                 href="{{ url_for('main.create_event') }}">Create Event</a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link {% if request.endpoint == 'main.booking_history' %}active{% endif %}"
                                 href="{{ url_for('main.booking_history') }}">My Bookings</a>
                         </li>
+
+                        <li class="nav-item ms-lg-2">
+                            <a class="btn btn-outline-light" href="{{ url_for('auth.logout') }}">Logout</a>
+                        </li>
+
+                        {% else %}
+
                         <li class="nav-item ms-lg-2">
                             <a class="btn btn-primary" href="{{ url_for('auth.login') }}">Sign In</a>
                         </li>
+
+                        <li class="nav-item ms-lg-2">
+                            <a class="btn btn-outline-light" href="{{ url_for('auth.register') }}">Register</a>
+                        </li>
+
+                        {% endif %}
+
                     </ul>
                 </div>
             </div>
@@ -78,14 +103,27 @@
                 </a>
 
                 <ul class="nav col-md-4 justify-content-end">
-                    <li class="nav-item"><a href="{{ url_for('main.index') }}"
-                            class="nav-link px-2 lb-footer-nav-link">Home</a></li>
-                    <li class="nav-item"><a href="{{ url_for('main.event_details') }}"
-                            class="nav-link px-2 lb-footer-nav-link">Events</a></li>
-                    <li class="nav-item"><a href="{{ url_for('main.create_event') }}"
-                            class="nav-link px-2 lb-footer-nav-link">Create Event</a></li>
-                    <li class="nav-item"><a href="{{ url_for('main.booking_history') }}"
-                            class="nav-link px-2 lb-footer-nav-link">My Bookings</a></li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('main.index') }}"
+                            class="nav-link px-2 lb-footer-nav-link">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ url_for('main.index') }}"
+                            class="nav-link px-2 lb-footer-nav-link">Events</a>
+                    </li>
+
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a href="{{ url_for('main.create_event') }}"
+                            class="nav-link px-2 lb-footer-nav-link">Create Event</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="{{ url_for('main.booking_history') }}"
+                            class="nav-link px-2 lb-footer-nav-link">My Bookings</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

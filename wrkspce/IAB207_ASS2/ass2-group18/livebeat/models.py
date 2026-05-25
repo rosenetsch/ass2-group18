@@ -1,43 +1,70 @@
 from . import db
 from datetime import datetime
 from flask_login import UserMixin
-from zoneinfo import ZoneInfo #this is for the brisbane conversion if needed?
+
+
+def brisbane_now():
+    return datetime.now()
+
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
+    phone = db.Column(db.String(20))
+    address = db.Column(db.String(200))
+
+    events = db.relationship("Event", backref="creator", lazy=True)
+    bookings = db.relationship("Booking", backref="user", lazy=True)
+    comments = db.relationship("Comment", backref="user", lazy=True)
+
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100))
-    description = db.Column(db.Text)
-    date = db.Column(db.DateTime)
-    category = db.Column(db.String(50))
-    status = db.Column(db.String(20))  # Open, Sold Out, Cancelled, Inactive
-    acknowledgement = db.Column(db.Text)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(50))
-    last_name = db.Column(db.String(50))
-    email = db.Column(db.String(120), unique=True)
-    password = db.Column(db.String(200))
-    Phone = db.Column(db.String(20))
-    address = db.Column(db.String(200))
 
-#To make local brisbane time (as brisbane operates on AEST)
-#if we just want to use UTC time because it is relevant to our application it can be: 
-# date = db.Column(db.DateTime, default=datetime.utcnow) instead.
-def brisbane_now():
-    return datetime.now(ZoneInfo("Australia/Brisbane"))
+    title = db.Column(db.String(100), nullable=False)
+    artist = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+
+    category = db.Column(db.String(50), nullable=False)
+    status = db.Column(db.String(20), default="Open")
+
+    capacity = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.DateTime, nullable=False)
+
+    venue_name = db.Column(db.String(120), nullable=False)
+    venue_address = db.Column(db.String(200), nullable=False)
+
+    ticket_price = db.Column(db.Float, nullable=False)
+    acknowledgement = db.Column(db.Text)
+
+    image = db.Column(db.String(200), default="concert1.jpg")
+
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+
+    bookings = db.relationship("Booking", backref="event", lazy=True)
+    comments = db.relationship("Comment", backref="event", lazy=True)
+
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.Text)
-    date = db.Column(db.DateTime(timezone=True), default=brisbane_now)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
+
+    text = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime, default=brisbane_now)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    event_id = db.Column(db.Integer, db.ForeignKey("event.id"))
+
 
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    ticketquantity = db.Column(db.Integer)
-    datebooked = db.Column(db.DateTime(timezone=True), default=brisbane_now)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
+
+    ticket_quantity = db.Column(db.Integer, nullable=False)
+    ticket_price = db.Column(db.Float, nullable=False)
+    date_booked = db.Column(db.DateTime, default=brisbane_now)
+
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    event_id = db.Column(db.Integer, db.ForeignKey("event.id"))

@@ -1,221 +1,76 @@
 {% extends 'base.html' %}
 
-{% block title %}Booking History - LiveBeat{% endblock %}
+{% block title %}My Bookings - LiveBeat{% endblock %}
 
 {% block content %}
 <section class="py-5">
     <div class="container">
-        <div class="mb-5">
-            <h1 class="mb-2">My Bookings</h1>
-        </div>
+        <h1 class="mb-4">My Bookings</h1>
 
-        <div class="mb-4">
-            <ul class="nav nav-tabs nav-fill" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="all-bookings-tab" data-bs-toggle="tab"
-                        data-bs-target="#all-bookings" type="button" role="tab">
-                        All Bookings
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="upcoming-tab" data-bs-toggle="tab" data-bs-target="#upcoming-bookings"
-                        type="button" role="tab">
-                        Upcoming
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="past-tab" data-bs-toggle="tab" data-bs-target="#past-bookings"
-                        type="button" role="tab">
-                        Past Events
-                    </button>
-                </li>
-            </ul>
-        </div>
-
-        <div class="tab-content">
-            <div class="tab-pane fade show active" id="all-bookings">
-                <div class="card mb-4 border-0 shadow-sm">
-                    <div class="row g-0">
-                        <div class="col-md-3">
-                            <img src="{{ url_for('static', filename='images/concert1.jpg') }}" alt="Midnight Frequency"
-                                class="img-fluid rounded-start h-100 object-fit-cover">
-                        </div>
-                        <div class="col-md-9">
-                            <div class="card-body">
-                                <div class="row align-items-start">
-                                    <div class="col-md-6">
-                                        <h5 class="card-title mb-1">Midnight Frequency</h5>
-                                        <p class="text-muted mb-2">The Velvet Underground Revival</p>
-                                        <p class="mb-2"><strong>Date:</strong> April 18, 2026 at 8:00 PM</p>
-                                        <p class="mb-2"><strong>Booked On:</strong> April 2, 2026 at 3:45 PM</p>
-                                        <p class="mb-2"><strong>Venue:</strong> The Tivoli, Brisbane</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="bg-light p-3 rounded mb-3">
-                                            <p class="mb-2"><strong>Booking ID:</strong> <code>BK20260418001</code></p>
-                                            <p class="mb-2"><strong>Tickets:</strong> 3x VIP</p>
-                                            <p class="mb-0"><strong>Total:</strong> $360.00</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        {% for booking in bookings %}
+        <div class="card mb-4 border-0 shadow-sm">
+            <div class="row g-0">
+                <div class="col-md-3">
+                    <img src="{{ url_for('static', filename='images/' ~ booking.event.image) }}"
+                        alt="{{ booking.event.title }}"
+                        class="img-fluid rounded-start h-100 object-fit-cover">
                 </div>
 
-                <div class="card mb-4 border-0 shadow-sm">
-                    <div class="row g-0">
-                        <div class="col-md-3">
-                            <img src="{{ url_for('static', filename='images/concert2.jpg') }}" alt="Blue Note Sessions"
-                                class="img-fluid rounded-start h-100 object-fit-cover">
-                        </div>
-                        <div class="col-md-9">
-                            <div class="card-body">
-                                <div class="row align-items-start">
-                                    <div class="col-md-6">
-                                        <h5 class="card-title mb-1">Blue Note Sessions</h5>
-                                        <p class="text-muted mb-2">Marcus Trio</p>
-                                        <p class="mb-2"><strong>Date:</strong> April 11, 2026 at 7:30 PM</p>
-                                        <p class="mb-2"><strong>Booked On:</strong> March 30, 2026 at 11:20 AM</p>
-                                        <p class="mb-2"><strong>Venue:</strong> The Jazzlab, Melbourne</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="bg-light p-3 rounded mb-3">
-                                            <p class="mb-2"><strong>Booking ID:</strong> <code>BK20260411002</code></p>
-                                            <p class="mb-2"><strong>Tickets:</strong> 2x Standard</p>
-                                            <p class="mb-0"><strong>Total:</strong> $130.00</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="col-md-9">
+                    <div class="card-body">
+                        <h5 class="card-title mb-1">{{ booking.event.title }}</h5>
+                        <p class="text-muted mb-2">{{ booking.event.artist }}</p>
 
-                <div class="card mb-4 border-0 shadow-sm opacity-75">
-                    <div class="row g-0">
-                        <div class="col-md-3">
-                            <img src="{{ url_for('static', filename='images/concert1.jpg') }}" alt="Sonic Crush"
-                                class="img-fluid rounded-start h-100 object-fit-cover">
-                        </div>
-                        <div class="col-md-9">
-                            <div class="card-body">
-                                <div class="row align-items-start">
-                                    <div class="col-md-6">
-                                        <h5 class="card-title mb-1">Sonic Crush Festival</h5>
-                                        <p class="text-muted mb-2">Redline &amp; The Amps</p>
-                                        <p class="mb-2"><strong>Date:</strong> February 15, 2026 at 6:00 PM</p>
-                                        <p class="mb-2"><strong>Booked On:</strong> January 28, 2026 at 6:10 PM</p>
-                                        <p class="mb-2"><strong>Venue:</strong> RNA Showgrounds, Brisbane</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="bg-light p-3 rounded mb-3">
-                                            <p class="mb-2"><strong>Booking ID:</strong> <code>BK20260215003</code></p>
-                                            <p class="mb-2"><strong>Tickets:</strong> 4x Standard</p>
-                                            <p class="mb-0"><strong>Total:</strong> $260.00</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <p class="mb-2">
+                            <strong>Event Date:</strong>
+                            {{ booking.event.date.strftime('%d %b %Y at %I:%M %p') }}
+                        </p>
 
-            <div class="tab-pane fade" id="upcoming-bookings">
-                <div class="card mb-4 border-0 shadow-sm">
-                    <div class="row g-0">
-                        <div class="col-md-3">
-                            <img src="{{ url_for('static', filename='images/concert1.jpg') }}" alt="Midnight Frequency"
-                                class="img-fluid rounded-start h-100 object-fit-cover">
-                        </div>
-                        <div class="col-md-9">
-                            <div class="card-body">
-                                <div class="row align-items-start">
-                                    <div class="col-md-6">
-                                        <h5 class="card-title mb-1">Midnight Frequency</h5>
-                                        <p class="text-muted mb-2">The Velvet Underground Revival</p>
-                                        <p class="mb-2"><strong>Date:</strong> April 18, 2026 at 8:00 PM</p>
-                                        <p class="mb-2"><strong>Booked On:</strong> April 2, 2026 at 3:45 PM</p>
-                                        <p class="mb-2"><strong>Venue:</strong> The Tivoli, Brisbane</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="bg-light p-3 rounded mb-3">
-                                            <p class="mb-2"><strong>Booking ID:</strong> <code>BK20260418001</code></p>
-                                            <p class="mb-2"><strong>Tickets:</strong> 3x VIP</p>
-                                            <p class="mb-0"><strong>Total:</strong> $360.00</p>
-                                        </div>
-                                        <p class="text-muted mb-0"><small>3 days until event</small></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <p class="mb-2">
+                            <strong>Booked On:</strong>
+                            {{ booking.date_booked.strftime('%d %b %Y at %I:%M %p') }}
+                        </p>
 
-                <div class="card mb-4 border-0 shadow-sm">
-                    <div class="row g-0">
-                        <div class="col-md-3">
-                            <img src="{{ url_for('static', filename='images/concert2.jpg') }}" alt="Blue Note"
-                                class="img-fluid rounded-start h-100 object-fit-cover">
-                        </div>
-                        <div class="col-md-9">
-                            <div class="card-body">
-                                <div class="row align-items-start">
-                                    <div class="col-md-6">
-                                        <h5 class="card-title mb-1">Blue Note Sessions</h5>
-                                        <p class="text-muted mb-2">Marcus Trio</p>
-                                        <p class="mb-2"><strong>Date:</strong> April 11, 2026 at 7:30 PM</p>
-                                        <p class="mb-2"><strong>Booked On:</strong> March 30, 2026 at 11:20 AM</p>
-                                        <p class="mb-2"><strong>Venue:</strong> The Jazzlab, Melbourne</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="bg-light p-3 rounded mb-3">
-                                            <p class="mb-2"><strong>Booking ID:</strong> <code>BK20260411002</code></p>
-                                            <p class="mb-2"><strong>Tickets:</strong> 2x Standard</p>
-                                            <p class="mb-0"><strong>Total:</strong> $130.00</p>
-                                        </div>
-                                        <p class="text-muted mb-0"><small>4 days until event</small></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <p class="mb-2">
+                            <strong>Venue:</strong>
+                            {{ booking.event.venue_name }}
+                        </p>
 
-            <div class="tab-pane fade" id="past-bookings">
-                <div class="card mb-4 border-0 shadow-sm opacity-75">
-                    <div class="row g-0">
-                        <div class="col-md-3">
-                            <img src="{{ url_for('static', filename='images/concert1.jpg') }}" alt="Sonic Crush"
-                                class="img-fluid rounded-start h-100 object-fit-cover">
+                        <div class="bg-light p-3 rounded mt-3">
+                            <p class="mb-2">
+                                <strong>Order ID:</strong>
+                                <code>LB{{ booking.id }}</code>
+                            </p>
+
+                            <p class="mb-2">
+                                <strong>Tickets:</strong>
+                                {{ booking.ticket_quantity }}
+                            </p>
+
+                            <p class="mb-0">
+                                <strong>Total:</strong>
+                                ${{ "%.2f"|format(booking.ticket_quantity * booking.ticket_price) }}
+                            </p>
                         </div>
-                        <div class="col-md-9">
-                            <div class="card-body">
-                                <div class="row align-items-start">
-                                    <div class="col-md-6">
-                                        <h5 class="card-title mb-1">Sonic Crush Festival</h5>
-                                        <p class="text-muted mb-2">Redline &amp; The Amps</p>
-                                        <p class="mb-2"><strong>Date:</strong> February 15, 2026</p>
-                                        <p class="mb-2"><strong>Booked On:</strong> January 28, 2026 at 6:10 PM</p>
-                                        <p class="mb-2"><strong>Venue:</strong> RNA Showgrounds, Brisbane</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="bg-light p-3 rounded mb-3">
-                                            <p class="mb-2"><strong>Booking ID:</strong> <code>BK20260215003</code></p>
-                                            <p class="mb-2"><strong>Tickets:</strong> 4x Standard</p>
-                                            <p class="mb-0"><strong>Total:</strong> $260.00</p>
-                                        </div>
-                                        <p class="text-muted mb-0"><small>Event completed</small></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+                        <a href="{{ url_for('main.event_details', event_id=booking.event.id) }}"
+                            class="btn btn-primary mt-3">
+                            View Event
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+
+        {% else %}
+        <div class="text-center py-5">
+            <h3>No bookings yet</h3>
+            <p class="text-muted">Book an event and it will appear here.</p>
+            <a href="{{ url_for('main.index') }}" class="btn btn-primary">
+                Browse Events
+            </a>
+        </div>
+        {% endfor %}
     </div>
 </section>
 {% endblock %}
