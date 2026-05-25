@@ -9,9 +9,19 @@ from .forms import EventForm, BookingForm
 
 main_bp = Blueprint("main", __name__)
 
+#US14
+def mark_past_events_inactive():
+    now = datetime.now()
+    past_open_events = Event.query.filter( Event.date < now, Event.status == "Open").all()
+
+    if past_open_events:
+        for event in past_open_events:
+            Event.status.notin_(["Inactive", "Sold Out", "Cancelled"])
+        db.session.commit()
 
 @main_bp.route("/")
 def index():
+    mark_past_events_inactive()
     selected_category = request.args.get("category", "all")
 
     query = Event.query.order_by(Event.date.asc())
@@ -34,6 +44,9 @@ def index():
 @main_bp.route("/events/<int:event_id>", methods=["GET", "POST"])
 def event_details(event_id):
     event = Event.query.get_or_404(event_id)
+    if event.status not in ("Inactive", "Sold Out", "Cancelled") and event.date < datetime.now():
+        event.status = "Inactive"
+        db.session.commit()
     comments = Comment.query.filter_by(event_id=event.id).order_by(Comment.date.desc()).all()
     booking_form = BookingForm()
 
