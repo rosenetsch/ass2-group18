@@ -4,7 +4,7 @@ from datetime import datetime
 
 from . import db
 from .models import Event, Booking, Comment
-from .forms import EventForm
+from .forms import EventForm, BookingForm
 
 
 main_bp = Blueprint("main", __name__)
@@ -35,11 +35,13 @@ def index():
 def event_details(event_id):
     event = Event.query.get_or_404(event_id)
     comments = Comment.query.filter_by(event_id=event.id).order_by(Comment.date.desc()).all()
+    booking_form = BookingForm()
 
     return render_template(
         "event-details.html",
         event=event,
         comments=comments,
+        booking_form=booking_form,
     )
 
 
@@ -90,16 +92,17 @@ def booking_history():
 @login_required
 def book_event(event_id):
     event = Event.query.get_or_404(event_id)
+    form = BookingForm()
+
+    if not form.validate_on_submit():
+        flash("Please enter a valid ticket quantity.")
+        return redirect(url_for("main.event_details", event_id=event.id))
 
     if event.status != "Open":
         flash("This event is not available for booking.")
         return redirect(url_for("main.event_details", event_id=event.id))
 
-    try:
-        quantity = int(request.form.get("ticket_quantity", 1))
-    except (TypeError, ValueError):
-        flash("Please enter a valid ticket quantity.")
-        return redirect(url_for("main.event_details", event_id=event.id))
+    quantity = form.ticket_quantity.data
 
     if quantity < 1:
         flash("Ticket quantity must be at least 1.")

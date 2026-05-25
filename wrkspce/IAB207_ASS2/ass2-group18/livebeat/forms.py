@@ -81,3 +81,12 @@ class RegisterForm(FlaskForm):
 
     # submit button
     submit = SubmitField("Register")
+
+
+class BookingForm(FlaskForm):
+    ticket_quantity = IntegerField(
+        "Ticket quantity",
+        validators=[InputRequired(), NumberRange(min=1)],
+        default=1,
+    )
+    submit = SubmitField("Book Now")
