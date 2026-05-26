@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms.fields import SubmitField, StringField, PasswordField
-from wtforms.validators import InputRequired, Length, Email, EqualTo, Regexp
+from wtforms.validators import InputRequired, Length, Email, EqualTo, Regexp, Optional
 from wtforms.fields import TextAreaField, SelectField, IntegerField, FloatField, DateField, TimeField
 from wtforms.validators import NumberRange
 
@@ -22,14 +23,27 @@ class EventForm(FlaskForm):
         validators=[InputRequired()],
     )
 
+    ticket_type = SelectField(
+        "Ticket Type",
+        choices=[
+            ("general", "General Admission"),
+            ("vip", "VIP"),
+            ("student", "Student Concession"),
+        ],
+        validators=[InputRequired()],
+    )
+
     capacity = IntegerField("Capacity", validators=[InputRequired(), NumberRange(min=1)])
     date = DateField("Event Date", validators=[InputRequired()])
-    time = TimeField("Event Time", validators=[InputRequired()])
+    time = TimeField("Event Start Time", validators=[InputRequired()])
+    end_time = TimeField("Event End Time", validators=[Optional()])
 
     venue_name = StringField("Venue Name", validators=[InputRequired()])
     venue_address = StringField("Venue Address", validators=[InputRequired()])
 
-    ticket_price = FloatField("Standard Ticket Price", validators=[InputRequired(), NumberRange(min=0)])
+    ticket_price = FloatField("Ticket Price ($)", validators=[InputRequired(), NumberRange(min=0)])
+
+    image = FileField("Event Image", validators=[Optional(), FileAllowed(['jpg', 'jpeg', 'png', 'gif'], 'Images only.')])
 
     acknowledgement = SelectField(
         "Acknowledgement of Country",
@@ -41,7 +55,7 @@ class EventForm(FlaskForm):
         validators=[InputRequired()],
     )
 
-    submit = SubmitField("Create Event")
+    submit = SubmitField("Save Event")
 
 # creates the login information
 class LoginForm(FlaskForm):

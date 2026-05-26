@@ -13,14 +13,46 @@
                 <div class="mt-4">
                     <h5 class="mb-3">Event Information</h5>
                     <ul class="list-unstyled">
-                        <li class="mb-2"><strong>Date:</strong> {{ event.date.strftime('%A, %B %d, %Y') }}</li>
-                        <li class="mb-2"><strong>Time:</strong> {{ event.date.strftime('%I:%M %p') }}</li>
-                        <li class="mb-2"><strong>Venue:</strong> {{ event.venue_name }}</li>
-                        <li class="mb-2"><strong>Address:</strong> {{ event.venue_address }}</li>
-                        <li class="mb-2"><strong>Genre:</strong> {{ event.category|capitalize }}</li>
-                        <li class="mb-2"><strong>Tickets Available:</strong> {{ event.capacity }}</li>
-                        <li class="mb-2"><strong>Ticket Price:</strong> ${{ "%.2f"|format(event.ticket_price) }}</li>
+                        <li class="mb-2"><i class="bi bi-calendar-event me-2 text-purple"></i><strong>Date:</strong> {{
+                            event.date.strftime('%A, %B %d, %Y') }}</li>
+                        <li class="mb-2"><i class="bi bi-clock me-2 text-purple"></i><strong>Start Time:</strong> {{
+                            event.date.strftime('%I:%M %p') }}</li>
+                        {% if event.end_time %}
+                        <li class="mb-2"><i class="bi bi-clock-history me-2 text-purple"></i><strong>End Time:</strong>
+                            {{ event.end_time.strftime('%I:%M %p') }}</li>
+                        {% endif %}
+                        <li class="mb-2"><i class="bi bi-geo-alt me-2 text-purple"></i><strong>Venue:</strong> {{
+                            event.venue_name }}</li>
+                        <li class="mb-2"><i class="bi bi-map me-2 text-purple"></i><strong>Address:</strong> {{
+                            event.venue_address }}</li>
+                        <li class="mb-2"><i class="bi bi-music-note me-2 text-purple"></i><strong>Genre:</strong> {{
+                            event.category|capitalize }}</li>
+                        <li class="mb-2"><i class="bi bi-ticket me-2 text-purple"></i><strong>Ticket Type:</strong>
+                            {% if event.ticket_type == 'vip' %}VIP
+                            {% elif event.ticket_type == 'student' %}Student Concession
+                            {% else %}General Admission
+                            {% endif %}
+                        </li>
+                        <li class="mb-2"><i class="bi bi-people me-2 text-purple"></i><strong>Tickets
+                                Available:</strong> {{ event.capacity }}</li>
+                        <li class="mb-2"><i class="bi bi-tag me-2 text-purple"></i><strong>Ticket Price:</strong> ${{
+                            "%.2f"|format(event.ticket_price) }}</li>
                     </ul>
+                    {% if current_user.is_authenticated and event.user_id == current_user.id %}
+                    <div class="d-flex gap-2 mt-3">
+                        <a href="{{ url_for('main.edit_event', event_id=event.id) }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-pencil me-1"></i>Edit Event
+                        </a>
+                        {% if event.status != "Cancelled" %}
+                        <form method="POST" action="{{ url_for('main.cancel_event', event_id=event.id) }}"
+                            onsubmit="return confirm('Are you sure you want to cancel this event?');">
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="bi bi-x-circle me-1"></i>Cancel Event
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                    {% endif %}
                 </div>
             </div>
 

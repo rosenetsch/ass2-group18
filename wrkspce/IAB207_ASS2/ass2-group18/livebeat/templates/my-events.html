@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}My Events - LiveBeat{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h1 class="mb-4">My Events</h1>
+
+        {% for event in events %}
+        <div class="card mb-4 border-0 shadow-sm">
+            <div class="row g-0">
+                <div class="col-md-3">
+                    <img src="{{ url_for('static', filename='images/' ~ event.image) }}" alt="{{ event.title }}"
+                        class="img-fluid rounded-start h-100 object-fit-cover">
+                </div>
+
+                <div class="col-md-9">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <h5 class="card-title mb-0">{{ event.title }}</h5>
+                            {% if event.status == "Open" %}
+                            <span class="lb-badge lb-badge-open">Open</span>
+                            {% elif event.status == "Sold Out" %}
+                            <span class="lb-badge lb-badge-soldout">Sold Out</span>
+                            {% elif event.status == "Cancelled" %}
+                            <span class="lb-badge lb-badge-cancelled">Cancelled</span>
+                            {% else %}
+                            <span class="lb-badge lb-badge-inactive">{{ event.status }}</span>
+                            {% endif %}
+                        </div>
+
+                        <p class="text-muted mb-2">{{ event.artist }}</p>
+
+                        <p class="mb-1">
+                            <i class="bi bi-calendar-event me-1 text-purple"></i>
+                            <strong>Date:</strong> {{ event.date.strftime('%d %b %Y at %I:%M %p') }}
+                        </p>
+
+                        <p class="mb-2">
+                            <i class="bi bi-geo-alt me-1 text-purple"></i>
+                            <strong>Venue:</strong> {{ event.venue_name }}
+                        </p>
+
+                        <div class="d-flex gap-2 mt-3">
+                            <a href="{{ url_for('main.event_details', event_id=event.id) }}"
+                                class="btn btn-outline-secondary btn-sm">
+                                <i class="bi bi-eye me-1"></i>View
+                            </a>
+                            {% if event.status != "Cancelled" %}
+                            <a href="{{ url_for('main.edit_event', event_id=event.id) }}"
+                                class="btn btn-primary btn-sm">
+                                <i class="bi bi-pencil me-1"></i>Edit
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <div class="text-center py-5">
+            <h3>No events yet</h3>
+            <p class="text-muted">Create your first event and it will appear here.</p>
+            <a href="{{ url_for('main.create_event') }}" class="btn btn-primary">
+                Create Event
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

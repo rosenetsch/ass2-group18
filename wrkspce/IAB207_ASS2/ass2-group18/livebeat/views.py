@@ -1,6 +1,8 @@
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, abort, current_app
 from flask_login import login_required, current_user
 from datetime import datetime
+import os
+from werkzeug.utils import secure_filename
 
 from . import db
 from .models import Event, Booking, Comment
@@ -9,6 +11,14 @@ from .forms import EventForm, BookingForm
 
 main_bp = Blueprint("main", __name__)
 
+
+@main_bp.app_context_processor
+def inject_has_created_events():
+    has_created_events = False
+    if current_user.is_authenticated:
+        has_created_events = Event.query.filter_by(user_id=current_user.id).first() is not None
+    return {"has_created_events": has_created_events}
+
 #US14
 def mark_past_events_inactive():
     now = datetime.now()
@@ -16,7 +26,7 @@ def mark_past_events_inactive():
 
     if past_open_events:
         for event in past_open_events:
-            Event.status.notin_(["Inactive", "Sold Out", "Cancelled"])
+            event.status = "Inactive"
         db.session.commit()
 
 @main_bp.route("/")
@@ -63,11 +73,18 @@ def event_details(event_id):
 def create_event():
     form = EventForm()
 
-    if form.errors:
-        print("CREATE EVENT FORM ERRORS:", form.errors)
-
     if form.validate_on_submit():
         event_datetime = datetime.combine(form.date.data, form.time.data)
+        end_datetime = datetime.combine(form.date.data, form.end_time.data) if form.end_time.data else None
+
+        # Handle image upload
+        image_filename = "concert1.jpg"
+        if form.image.data and hasattr(form.image.data, "filename") and form.image.data.filename:
+            f = form.image.data
+            filename = secure_filename(f.filename)
+            upload_folder = os.path.join(current_app.root_path, 'static', 'images')
+            f.save(os.path.join(upload_folder, filename))
+            image_filename = filename
 
         event = Event(
             title=form.title.data,
@@ -76,13 +93,15 @@ def create_event():
             category=form.category.data,
             capacity=form.capacity.data,
             date=event_datetime,
+            end_time=end_datetime,
             venue_name=form.venue_name.data,
             venue_address=form.venue_address.data,
             ticket_price=form.ticket_price.data,
+            ticket_type=form.ticket_type.data,
             acknowledgement=form.acknowledgement.data,
             user_id=current_user.id,
             status="Open",
-            image="concert1.jpg",
+            image=image_filename,
         )
 
         db.session.add(event)
@@ -92,6 +111,82 @@ def create_event():
         return redirect(url_for("main.event_details", event_id=event.id))
 
     return render_template("create-event.html", form=form)
+
+
+@main_bp.route("/events/<int:event_id>/edit", methods=["GET", "POST"])
+@login_required
+def edit_event(event_id):
+    event = Event.query.get_or_404(event_id)
+
+    # Only the owner can edit
+    if event.user_id != current_user.id:
+        abort(403)
+
+    form = EventForm(obj=event)
+
+    if form.validate_on_submit():
+        updated_start_datetime = datetime.combine(form.date.data, form.time.data)
+        event.title = form.title.data
+        event.artist = form.artist.data
+        event.description = form.description.data
+        event.category = form.category.data
+        event.capacity = form.capacity.data
+        event.date = updated_start_datetime
+        event.end_time = datetime.combine(form.date.data, form.end_time.data) if form.end_time.data else None
+        event.venue_name = form.venue_name.data
+        event.venue_address = form.venue_address.data
+        event.ticket_price = form.ticket_price.data
+        event.ticket_type = form.ticket_type.data
+        # Update image only if a new one was uploaded
+        if form.image.data and hasattr(form.image.data, "filename") and form.image.data.filename:
+            f = form.image.data
+            filename = secure_filename(f.filename)
+            upload_folder = os.path.join(current_app.root_path, 'static', 'images')
+            f.save(os.path.join(upload_folder, filename))
+            event.image = filename
+        event.acknowledgement = form.acknowledgement.data
+
+        # Reactivate only when an inactive event is moved to the future.
+        if event.status == "Inactive" and updated_start_datetime >= datetime.now():
+            event.status = "Open"
+
+        # Reopen sold-out events when tickets are added back.
+        if event.status and event.status.strip().lower() == "sold out" and event.capacity > 0:
+            event.status = "Open"
+
+        db.session.commit()
+        flash("Event updated successfully.")
+        return redirect(url_for("main.event_details", event_id=event.id))
+
+    # Pre-fill date and time fields from existing event
+    if request.method == "GET":
+        form.date.data = event.date.date()
+        form.time.data = event.date.time()
+        if event.end_time:
+            form.end_time.data = event.end_time.time()
+
+    return render_template("create-event.html", form=form, editing=True, event=event)
+
+
+@main_bp.route("/events/<int:event_id>/cancel", methods=["POST"])
+@login_required
+def cancel_event(event_id):
+    event = Event.query.get_or_404(event_id)
+
+    if event.user_id != current_user.id:
+        abort(403)
+
+    event.status = "Cancelled"
+    db.session.commit()
+    flash("Event has been cancelled.")
+    return redirect(url_for("main.event_details", event_id=event.id))
+
+
+@main_bp.route("/my-events")
+@login_required
+def my_events():
+    events = Event.query.filter_by(user_id=current_user.id).order_by(Event.date.desc()).all()
+    return render_template("my-events.html", events=events)
 
 
 @main_bp.route("/booking-history")

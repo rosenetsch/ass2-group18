@@ -253,6 +253,11 @@ h3 {
     border: none;
 }
 
+/* Utility colour for Bootstrap Icons */
+.text-purple {
+    color: #9B59B6;
+}
+
 /* Sections */
 section {
     padding: 2rem 0;
@@ -501,32 +506,6 @@ section {
     margin-top: 2px;
 }
 
-/* Genre options css */
-.lb-genre-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 2px solid #ECF0F1;
-}
-
-.lb-genre-pill {
-    padding: 0.7rem 1.5rem;
-    border: 2px solid #E8D5F2;
-    border-radius: 25px;
-    background-color: #E8D5F2;
-    color: #2C3E50;
-    font-size: 0.95rem;
-}
-
-.lb-genre-pill:hover,
-.lb-genre-pill.active {
-    border-color: #9B59B6;
-    color: #9B59B6;
-    box-shadow: var(--light-shadow);
-}
-
 /* Footer */
 .lb-footer {
     background: linear-gradient(135deg, #F0E6FF 0%, #FFE8E8 100%);
@@ -620,10 +599,6 @@ section {
 
     .lb-card-venue {
         font-size: 0.8rem;
-    }
-
-    .event-item {
-        margin-bottom: 1rem;
     }
 
     .lb-footer .d-flex {

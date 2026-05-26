@@ -39,6 +39,8 @@ class Event(db.Model):
     venue_address = db.Column(db.String(200), nullable=False)
 
     ticket_price = db.Column(db.Float, nullable=False)
+    ticket_type = db.Column(db.String(50), nullable=True, default="general")
+    end_time = db.Column(db.DateTime, nullable=True)
     acknowledgement = db.Column(db.Text)
 
     image = db.Column(db.String(200), default="concert1.jpg")
