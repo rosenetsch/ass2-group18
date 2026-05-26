@@ -113,9 +113,23 @@
                             </div>
                             {% endif %}
 
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a href="{{ url_for('main.index') }}"
-                                    class="btn btn-outline-secondary btn-lg">Cancel</a>
+html                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                {% if editing %}
+                                    <a href="{{ url_for('main.event_details', event_id=event.id) }}"
+                                        class="btn btn-outline-secondary btn-lg">Back</a>
+
+                                    {% if event.status != 'Cancelled' %}
+                                    <button type="button" class="btn btn-outline-danger btn-lg"
+                                        data-bs-toggle="modal" data-bs-target="#cancelModal">
+                                        Cancel Event
+                                    </button>
+                                    {% endif %}
+
+                                {% else %}
+                                    <a href="{{ url_for('main.index') }}"
+                                        class="btn btn-outline-secondary btn-lg">Cancel</a>
+                                {% endif %}
+
                                 {{ form.submit(class="btn btn-primary btn-lg") }}
                             </div>
                         </form>
@@ -126,4 +140,34 @@
         </div>
     </div>
 </section>
+
+{% if editing and event.status != 'Cancelled' %}
+<!-- Modal for confirming event cancellation -->
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelModalLabel">Cancel Event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to cancel <strong>{{ event.title }}</strong>?</p>
+                <p class="text-muted">This cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Go Back
+                </button>
+                <form method="POST" action="{{ url_for('main.cancel_event', event_id=event.id) }}">
+                    {{ form.hidden_tag() }}
+                    <button type="submit" class="btn btn-danger">
+                        Yes, Cancel Event
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 {% endblock %}
