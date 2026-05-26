@@ -19,7 +19,7 @@ def inject_has_created_events():
         has_created_events = Event.query.filter_by(user_id=current_user.id).first() is not None
     return {"has_created_events": has_created_events}
 
-#US14
+#US14 Mark events inactive 
 def mark_past_events_inactive():
     now = datetime.now()
     past_open_events = Event.query.filter( Event.date < now, Event.status == "Open").all()
@@ -137,6 +137,7 @@ def edit_event(event_id):
         event.venue_address = form.venue_address.data
         event.ticket_price = form.ticket_price.data
         event.ticket_type = form.ticket_type.data
+        
         # Update image only if a new one was uploaded
         if form.image.data and hasattr(form.image.data, "filename") and form.image.data.filename:
             f = form.image.data
@@ -167,7 +168,7 @@ def edit_event(event_id):
 
     return render_template("create-event.html", form=form, editing=True, event=event)
 
-
+# event cancelled by the owner
 @main_bp.route("/events/<int:event_id>/cancel", methods=["POST"])
 @login_required
 def cancel_event(event_id):
