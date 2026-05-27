@@ -5,6 +5,30 @@ from wtforms.validators import InputRequired, Length, Email, EqualTo, Regexp, Op
 from wtforms.fields import TextAreaField, SelectField, IntegerField, FloatField, DateField, TimeField
 from wtforms.validators import NumberRange
 from wtforms.validators import ValidationError
+from wtforms.fields import (
+    SubmitField,
+    StringField,
+    PasswordField,
+    TextAreaField,
+    SelectField,
+    IntegerField,
+    FloatField,
+    DateField,
+    TimeField
+)
+
+from wtforms.validators import (
+    InputRequired,
+    Length,
+    Email,
+    EqualTo,
+    Regexp,
+    Optional,
+    NumberRange,
+    ValidationError
+)
+
+from datetime import date
 
 class EventForm(FlaskForm):
     title = StringField("Event Title", validators=[InputRequired()])
@@ -27,14 +51,25 @@ class EventForm(FlaskForm):
     ticket_type = SelectField(
         "Ticket Type",
         choices=[
-            ("general", "General Admission"),
+            ("standard", "Standard"),
             ("vip", "VIP"),
-            ("student", "Student Concession"),
+            ("premium", "Premium"),
         ],
         validators=[InputRequired()],
     )
 
-    capacity = IntegerField("Capacity", validators=[InputRequired(), NumberRange(min=1)])
+    capacity = SelectField(
+        "Capacity",
+        choices=[
+            ("500", "500"),
+            ("1000", "1000"),
+            ("2000", "2000"),
+            ("3000", "3000"),
+            ("4000", "4000"),
+            ("5000", "5000"),
+        ],
+        validators=[InputRequired()],
+    )
     date = DateField("Event Date", validators=[InputRequired()])
     time = TimeField("Event Start Time", validators=[InputRequired()])
     end_time = TimeField("Event End Time", validators=[Optional()])
@@ -42,7 +77,29 @@ class EventForm(FlaskForm):
     venue_name = StringField("Venue Name", validators=[InputRequired()])
     venue_address = StringField("Venue Address", validators=[InputRequired()])
 
-    ticket_price = FloatField("Ticket Price ($)", validators=[InputRequired(), NumberRange(min=0)])
+    standard_price = FloatField(
+        "Standard Ticket Price (AUD $)",
+        validators=[
+            InputRequired(),
+            NumberRange(min=0)
+        ]
+    )
+
+    vip_price = FloatField(
+        "VIP Ticket Price (AUD $)",
+        validators=[
+            InputRequired(),
+            NumberRange(min=0)
+        ]
+    )
+
+    premium_price = FloatField(
+        "Premium Ticket Price (AUD $)",
+        validators=[
+            InputRequired(),
+            NumberRange(min=0)
+        ]
+    )
 
     image = FileField("Event Image", validators=[Optional(), FileAllowed(['jpg', 'jpeg', 'png', 'gif'], 'Images only.')])
 
