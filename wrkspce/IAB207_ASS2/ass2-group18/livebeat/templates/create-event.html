@@ -1,176 +1,525 @@
 {% extends 'base.html' %}
 
-{% block title %}{% if editing %}Edit Event{% else %}Create Event{% endif %} - LiveBeat{% endblock %}
+{% block title %}
+{% if editing %}
+Edit Event
+{% else %}
+Create Event
+{% endif %}
+- LiveBeat
+{% endblock %}
 
 {% block content %}
+
 <section class="py-5">
+
     <div class="container">
+
         <div class="row justify-content-center">
+
             <div class="col-lg-8">
+
                 <div class="card border-0 shadow-lg">
+
                     <div class="card-body p-5">
+
                         <h1 class="card-title mb-2">
-                            {% if editing %}Edit Event{% else %}Create a New Event{% endif %}
-                        </h1>
-                        <p class="text-muted mb-4">
+
                             {% if editing %}
-                            Update the event details below. Event status cannot be changed here.
+                                Edit Event
                             {% else %}
-                            Enter the event details below. You can edit this event later from the event page.
+                                Create a New Event
                             {% endif %}
+
+                        </h1>
+
+                        <p class="text-muted mb-4">
+
+                            {% if editing %}
+                                Update the event details below.
+                            {% else %}
+                                Enter the event details below.
+                            {% endif %}
+
                         </p>
 
-                        <form method="POST" enctype="multipart/form-data"
-                            action="{% if editing %}{{ url_for('main.edit_event', event_id=event.id) }}{% else %}{{ url_for('main.create_event') }}{% endif %}">
+                        <form
+                            method="POST"
+                            enctype="multipart/form-data"
+                            action="{% if editing %}{{ url_for('main.edit_event', event_id=event.id) }}{% else %}{{ url_for('main.create_event') }}{% endif %}"
+                        >
+
                             {{ form.hidden_tag() }}
 
+                            <!-- EVENT TITLE -->
+
                             <div class="mb-4">
+
                                 {{ form.title.label(class="form-label fw-semibold") }}
-                                {{ form.title(class="form-control form-control-lg", placeholder="e.g., Summer Music Festival 2026") }}
+
+                                {{ form.title(
+                                    class="form-control form-control-lg",
+                                    placeholder="e.g. Summer Music Festival 2026"
+                                ) }}
+
+                                {% for error in form.title.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+
                             </div>
 
+
+                            <!-- ARTIST -->
+
                             <div class="mb-4">
+
                                 {{ form.artist.label(class="form-label fw-semibold") }}
-                                {{ form.artist(class="form-control form-control-lg", placeholder="e.g., The Rolling Stones") }}
+
+                                {{ form.artist(
+                                    class="form-control form-control-lg",
+                                    placeholder="e.g. The Rolling Stones"
+                                ) }}
+
+                                {% for error in form.artist.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+
                             </div>
 
+
+                            <!-- DESCRIPTION -->
+
                             <div class="mb-4">
+
                                 {{ form.description.label(class="form-label fw-semibold") }}
-                                {{ form.description(class="form-control", rows="4", placeholder="Tell us about your event. What can attendees expect?") }}
+
+                                {{ form.description(
+                                    class="form-control",
+                                    rows="4",
+                                    placeholder="Tell attendees about your event"
+                                ) }}
+
+                                {% for error in form.description.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+
                             </div>
 
+
+                            <!-- CATEGORY + CAPACITY -->
+
                             <div class="row mb-4">
+
                                 <div class="col-md-6">
+
                                     {{ form.category.label(class="form-label fw-semibold") }}
-                                    {{ form.category(class="form-select form-select-lg") }}
+
+                                    {{ form.category(
+                                        class="form-select form-select-lg"
+                                    ) }}
+
                                 </div>
+
                                 <div class="col-md-6">
-                                    {{ form.ticket_type.label(class="form-label fw-semibold") }}
-                                    {{ form.ticket_type(class="form-select form-select-lg") }}
+
+                                    {{ form.capacity.label(class="form-label fw-semibold") }}
+
+                                    {{ form.capacity(
+                                        class="form-select form-select-lg"
+                                    ) }}
+
                                 </div>
+
                             </div>
 
-                            <div class="mb-4">
-                                {{ form.capacity.label(class="form-label fw-semibold") }}
-                                {{ form.capacity(class="form-control form-control-lg", type="number", min="1",
-                                placeholder="e.g., 5000") }}
-                            </div>
+
+                            <!-- DATE + TIME -->
 
                             <div class="row mb-4">
+
                                 <div class="col-md-4">
+
                                     {{ form.date.label(class="form-label fw-semibold") }}
-                                    {{ form.date(class="form-control form-control-lg") }}
+
+                                    {{ form.date(
+                                        class="form-control form-control-lg",
+                                        min=today
+                                    ) }}
+
+                                    {% for error in form.date.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
                                 </div>
+
                                 <div class="col-md-4">
+
                                     {{ form.time.label(class="form-label fw-semibold") }}
-                                    {{ form.time(class="form-control form-control-lg") }}
+
+                                    {{ form.time(
+                                        class="form-control form-control-lg"
+                                    ) }}
+
+                                    {% for error in form.time.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
                                 </div>
+
                                 <div class="col-md-4">
+
                                     {{ form.end_time.label(class="form-label fw-semibold") }}
-                                    {{ form.end_time(class="form-control form-control-lg") }}
-                                    <small class="text-muted">Optional</small>
+
+                                    {{ form.end_time(
+                                        class="form-control form-control-lg"
+                                    ) }}
+
+                                    {% for error in form.end_time.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
                                 </div>
+
                             </div>
 
+
+                            <!-- VENUE -->
+
                             <div class="mb-4">
+
                                 {{ form.venue_name.label(class="form-label fw-semibold") }}
-                                {{ form.venue_name(class="form-control form-control-lg", placeholder="e.g., Sydney Opera House") }}
+
+                                {{ form.venue_name(
+                                    class="form-control form-control-lg",
+                                    placeholder="e.g. Sydney Opera House"
+                                ) }}
+
+                                {% for error in form.venue_name.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+
                             </div>
 
                             <div class="mb-4">
+
                                 {{ form.venue_address.label(class="form-label fw-semibold") }}
-                                {{ form.venue_address(class="form-control form-control-lg", placeholder="e.g., 123 Main Street, Brisbane QLD 4000") }}
+
+                                {{ form.venue_address(
+                                    class="form-control form-control-lg",
+                                    placeholder="e.g. Brisbane QLD"
+                                ) }}
+
+                                {% for error in form.venue_address.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+
                             </div>
 
-                            <div class="mb-4">
-                                {{ form.ticket_price.label(class="form-label fw-semibold") }}
-                                {{ form.ticket_price(class="form-control form-control-lg", type="number", min="0",
-                                step="0.01", placeholder="e.g., 45.00") }}
+
+                            <!-- TICKET PRICES -->
+
+                            <div class="row mb-4">
+
+                                <div class="col-md-4">
+
+                                    {{ form.standard_price.label(class="form-label fw-semibold") }}
+
+                                    {{ form.standard_price(
+                                        class="form-control form-control-lg",
+                                        placeholder="AUD $"
+                                    ) }}
+
+                                    {% for error in form.standard_price.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    {{ form.vip_price.label(class="form-label fw-semibold") }}
+
+                                    {{ form.vip_price(
+                                        class="form-control form-control-lg",
+                                        placeholder="AUD $"
+                                    ) }}
+
+                                    {% for error in form.vip_price.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+                                <div class="col-md-4">
+
+                                    {{ form.premium_price.label(class="form-label fw-semibold") }}
+
+                                    {{ form.premium_price(
+                                        class="form-control form-control-lg",
+                                        placeholder="AUD $"
+                                    ) }}
+
+                                    {% for error in form.premium_price.errors %}
+                                        <div class="text-danger small mt-1">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
                             </div>
 
+
+                            <!-- IMAGE -->
+
                             <div class="mb-4">
+
                                 {{ form.image.label(class="form-label fw-semibold") }}
-                                {{ form.image(class="form-control form-control-lg") }}
-                                {% if editing and event.image %}
-                                <small class="text-muted">Current: {{ event.image }}. Leave blank to keep existing
-                                    image.</small>
-                                {% endif %}
+
+                                {{ form.image(
+                                    class="form-control form-control-lg"
+                                ) }}
+
+                                <small class="text-muted">
+                                    Upload JPG, JPEG, PNG or GIF image.
+                                </small>
+
+                                {% for error in form.image.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+
                             </div>
 
+
+                            <!-- ACKNOWLEDGEMENT -->
+
                             <div class="mb-4">
+
                                 {{ form.acknowledgement.label(class="form-label fw-semibold") }}
-                                {{ form.acknowledgement(class="form-select form-select-lg") }}
+
+                                {{ form.acknowledgement(
+                                    class="form-select form-select-lg"
+                                ) }}
+
                             </div>
+
+
+                            <!-- HELP -->
+
+                            <div class="alert alert-info mb-4">
+
+                                <strong>Need help?</strong>
+
+                                <br>
+
+                                Learn more about Welcome to Country and
+                                Acknowledgement of Country.
+
+                                <br><br>
+
+                                <a
+                                    href="{{ url_for('main.acknowledgement') }}"
+                                    target="_blank"
+                                    class="btn btn-outline-primary btn-sm"
+                                >
+                                    View Information
+                                </a>
+
+                            </div>
+
+
+                            <!-- TERMS -->
 
                             {% if not editing %}
+
                             <div class="mb-4">
+
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
-                                    <label class="form-check-label" for="termsCheck">
-                                       I agree to the LiveBeat
-                                    <a href="{{ url_for('main.acknowledgement') }}" target="_blank">
-                                    Terms &amp; Conditions
-                                    </a>
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        id="termsCheck"
+                                        required
+                                    >
+
+                                    <label
+                                        class="form-check-label"
+                                        for="termsCheck"
+                                    >
+
+                                        I agree to the LiveBeat
+
+                                        <a
+                                            href="{{ url_for('main.acknowledgement') }}"
+                                            target="_blank"
+                                        >
+                                            Terms & Conditions
+                                        </a>
+
                                     </label>
+
                                 </div>
+
                             </div>
+
                             {% endif %}
 
-                                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+                            <!-- BUTTONS -->
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
                                 {% if editing %}
-                                    <a href="{{ url_for('main.event_details', event_id=event.id) }}"
-                                        class="btn btn-outline-secondary btn-lg">Back</a>
+
+                                    <a
+                                        href="{{ url_for('main.event_details', event_id=event.id) }}"
+                                        class="btn btn-outline-secondary btn-lg"
+                                    >
+                                        Back
+                                    </a>
 
                                     {% if event.status != 'Cancelled' %}
-                                    <button type="button" class="btn btn-outline-danger btn-lg"
-                                        data-bs-toggle="modal" data-bs-target="#cancelModal">
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-outline-danger btn-lg"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#cancelModal"
+                                    >
                                         Cancel Event
                                     </button>
+
                                     {% endif %}
 
                                 {% else %}
-                                    <a href="{{ url_for('main.index') }}"
-                                        class="btn btn-outline-secondary btn-lg">Cancel</a>
+
+                                    <a
+                                        href="{{ url_for('main.index') }}"
+                                        class="btn btn-outline-secondary btn-lg"
+                                    >
+                                        Cancel
+                                    </a>
+
                                 {% endif %}
 
-                                {{ form.submit(class="btn btn-primary btn-lg") }}
+                                {{ form.submit(
+                                    class="btn btn-primary btn-lg",
+                                    value="Save Event"
+                                ) }}
+
                             </div>
+
                         </form>
 
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </section>
 
+
+<!-- CANCEL MODAL -->
+
 {% if editing and event.status != 'Cancelled' %}
-<!-- Modal for confirming event cancellation -->
-<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+
+<div
+    class="modal fade"
+    id="cancelModal"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
     <div class="modal-dialog modal-dialog-centered">
+
         <div class="modal-content">
+
             <div class="modal-header">
-                <h5 class="modal-title" id="cancelModalLabel">Cancel Event</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                <h5 class="modal-title">
+                    Cancel Event
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
             </div>
+
             <div class="modal-body">
-                <p>Are you sure you want to cancel <strong>{{ event.title }}</strong>?</p>
-                <p class="text-muted">This cannot be undone.</p>
+
+                Are you sure you want to cancel:
+
+                <strong>
+                    {{ event.title }}
+                </strong>?
+
             </div>
+
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+
+                <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    data-bs-dismiss="modal"
+                >
                     Go Back
                 </button>
-                <form method="POST" action="{{ url_for('main.cancel_event', event_id=event.id) }}">
+
+                <form
+                    method="POST"
+                    action="{{ url_for('main.cancel_event', event_id=event.id) }}"
+                >
+
                     {{ form.hidden_tag() }}
-                    <button type="submit" class="btn btn-danger">
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger"
+                    >
                         Yes, Cancel Event
                     </button>
+
                 </form>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
+
 {% endif %}
 
 {% endblock %}
