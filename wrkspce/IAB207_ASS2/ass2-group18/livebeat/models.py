@@ -38,7 +38,11 @@ class Event(db.Model):
     venue_name = db.Column(db.String(120), nullable=False)
     venue_address = db.Column(db.String(200), nullable=False)
 
-    ticket_price = db.Column(db.Float, nullable=False)
+    standard_price = db.Column(db.Float, nullable=False)
+
+    vip_price = db.Column(db.Float, nullable=False)
+
+    premium_price = db.Column(db.Float, nullable=False)
     ticket_type = db.Column(db.String(50), nullable=True, default="general")
     end_time = db.Column(db.DateTime, nullable=True)
     acknowledgement = db.Column(db.Text)
