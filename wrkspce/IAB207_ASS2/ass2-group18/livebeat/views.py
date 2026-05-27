@@ -49,7 +49,9 @@ def index():
         categories=categories,
         selected_category=selected_category,
     )
-
+@main_bp.route("/acknowledgement")
+def acknowledgement():
+    return render_template("Ack2.html")
 
 @main_bp.route("/events/<int:event_id>", methods=["GET", "POST"])
 def event_details(event_id):
