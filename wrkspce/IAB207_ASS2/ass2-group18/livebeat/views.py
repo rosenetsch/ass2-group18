@@ -36,7 +36,7 @@ from .forms import (
 
 main_bp = Blueprint(
     "main",
-    _name_
+    __name__
 )
 
 
@@ -210,106 +210,124 @@ def create_event():
 
     form = EventForm()
 
-    if form.validate_on_submit():
+    if request.method == "POST":
 
-        event_datetime = datetime.combine(
-            form.date.data,
-            form.time.data
-        )
+        print(form.errors)
 
-        # IMAGE UPLOAD
+        if form.validate_on_submit():
 
-        image_filename = "concert1.jpg"
-
-        if (
-            form.image.data
-            and
-            hasattr(form.image.data, "filename")
-            and
-            form.image.data.filename
-        ):
-
-            f = form.image.data
-
-            filename = secure_filename(
-                f.filename
+            event_datetime = datetime.combine(
+                form.date.data,
+                form.time.data
             )
 
-            upload_folder = os.path.join(
-                current_app.root_path,
-                'static',
-                'images'
-            )
+            image_filename = "concert1.jpg"
 
-            f.save(
-                os.path.join(
+            # IMAGE UPLOAD
+
+            if (
+                form.image.data
+                and
+                hasattr(form.image.data, "filename")
+                and
+                form.image.data.filename
+            ):
+
+                f = form.image.data
+
+                filename = secure_filename(
+                    f.filename
+                )
+
+                upload_folder = os.path.join(
+                    current_app.root_path,
+                    "static",
+                    "images"
+                )
+
+                os.makedirs(
                     upload_folder,
-                    filename
+                    exist_ok=True
+                )
+
+                f.save(
+                    os.path.join(
+                        upload_folder,
+                        filename
+                    )
+                )
+
+                image_filename = filename
+
+            # CREATE EVENT
+
+            event = Event(
+
+                title=form.title.data,
+
+                artist=form.artist.data,
+
+                description=form.description.data,
+
+                category=form.category.data,
+
+                capacity=int(form.capacity.data),
+
+                date=event_datetime,
+
+                time=form.time.data,
+
+                end_time=form.end_time.data,
+
+                venue_name=form.venue_name.data,
+
+                venue_address=form.venue_address.data,
+
+                standard_price=form.standard_price.data,
+
+                vip_price=form.vip_price.data,
+
+                premium_price=form.premium_price.data,
+
+                acknowledgement=form.acknowledgement.data,
+
+                user_id=current_user.id,
+
+                status="Open",
+
+                image=image_filename,
+            )
+
+            db.session.add(event)
+
+            db.session.commit()
+
+            flash(
+                "Event created successfully."
+            )
+
+            return redirect(
+                url_for(
+                    "main.event_details",
+                    event_id=event.id
                 )
             )
 
-            image_filename = filename
+        else:
 
-        # CREATE EVENT
-
-        event = Event(
-
-            title=form.title.data,
-
-            artist=form.artist.data,
-
-            description=form.description.data,
-
-            category=form.category.data,
-
-            ticket_type=form.ticket_type.data,
-
-            capacity=int(form.capacity.data),
-
-            date=event_datetime,
-
-            time=form.time.data,
-
-            end_time=form.end_time.data,
-
-            venue_name=form.venue_name.data,
-
-            venue_address=form.venue_address.data,
-
-            standard_price=form.standard_price.data,
-
-            vip_price=form.vip_price.data,
-
-            premium_price=form.premium_price.data,
-
-            acknowledgement=form.acknowledgement.data,
-
-            user_id=current_user.id,
-
-            status="Open",
-
-            image=image_filename,
-        )
-
-        db.session.add(event)
-
-        db.session.commit()
-
-        flash(
-            "Event created successfully."
-        )
-
-        return redirect(
-
-            url_for(
-                "main.event_details",
-                event_id=event.id
+            flash(
+                "Please fix the form errors."
             )
-        )
 
     return render_template(
+
         "create-event.html",
-        form=form
+
+        form=form,
+
+        today=datetime.today().strftime(
+            "%Y-%m-%d"
+        )
     )
 
 
@@ -350,8 +368,6 @@ def edit_event(event_id):
 
         event.category = form.category.data
 
-        event.ticket_type = form.ticket_type.data
-
         event.capacity = int(form.capacity.data)
 
         event.date = updated_start_datetime
@@ -390,8 +406,13 @@ def edit_event(event_id):
 
             upload_folder = os.path.join(
                 current_app.root_path,
-                'static',
-                'images'
+                "static",
+                "images"
+            )
+
+            os.makedirs(
+                upload_folder,
+                exist_ok=True
             )
 
             f.save(
@@ -403,26 +424,11 @@ def edit_event(event_id):
 
             event.image = filename
 
-        # REACTIVATE EVENT
+        # REOPEN SOLD OUT
 
         if (
-            event.status == "Inactive"
-
+            event.status == "Sold Out"
             and
-
-            updated_start_datetime >= datetime.now()
-        ):
-
-            event.status = "Open"
-
-        # REOPEN SOLD OUT EVENT
-
-        if (
-            event.status.strip().lower()
-            == "sold out"
-
-            and
-
             event.capacity > 0
         ):
 
@@ -460,7 +466,11 @@ def edit_event(event_id):
 
         editing=True,
 
-        event=event
+        event=event,
+
+        today=datetime.today().strftime(
+            "%Y-%m-%d"
+        )
     )
 
 
@@ -738,4 +748,4 @@ def add_comment(event_id):
             "main.event_details",
             event_id=event.id
         )
-    )
+    
