@@ -614,3 +614,146 @@ section {
     }
 
 }
+/* =========================
+   ACKNOWLEDGEMENT SECTION
+========================= */
+
+.lb-ack-preview {
+    background: #F8F4FC;
+    border: 1px solid #E4D7ED;
+    border-radius: 12px;
+    padding: 1rem 1.2rem;
+    margin-top: 1rem;
+    color: #5A4A7F;
+}
+
+.lb-ack-preview strong {
+    color: #9B59B6;
+    font-weight: 700;
+}
+
+.lb-ack-preview a {
+    color: #9B59B6;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.lb-ack-preview a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   TICKET CARDS
+========================= */
+
+.lb-ticket-card {
+    background: white;
+    border: 1px solid #ECE2F5;
+    border-radius: 14px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--light-shadow);
+}
+
+.lb-ticket-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #5A4A7F;
+    margin-bottom: 0.8rem;
+}
+
+
+/* =========================
+   REMAINING TICKETS
+========================= */
+
+.lb-remaining-tickets {
+    background: #F8F4FC;
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    font-weight: 600;
+    color: #5A4A7F;
+    margin-bottom: 1rem;
+}
+
+
+/* =========================
+   STATUS BADGES
+========================= */
+
+.lb-status-open {
+    background-color: #E8F8F5;
+    color: #2C7A4B;
+    font-weight: 700;
+}
+
+.lb-status-soldout {
+    background-color: #FDECEC;
+    color: #B54747;
+    font-weight: 700;
+}
+
+
+/* =========================
+   IMAGE UPLOAD NOTE
+========================= */
+
+.lb-upload-note {
+    font-size: 0.85rem;
+    color: #7F8C8D;
+    margin-top: 0.5rem;
+}
+
+
+/* =========================
+   FORM IMPROVEMENTS
+========================= */
+
+.form-control,
+.form-select {
+    border-radius: 10px;
+    border: 1px solid #E4D7ED;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #CFA9E4;
+    box-shadow: 0 0 0 0.2rem rgba(155, 89, 182, 0.12);
+}
+
+
+/* =========================
+   EVENT DETAIL SIDEBAR
+========================= */
+
+.sticky-top {
+    z-index: 10;
+}
+
+
+/* =========================
+   SOLD OUT EVENT CARD
+========================= */
+
+.lb-badge-soldout {
+    background-color: #FDECEC;
+    color: #B54747;
+}
+
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+    .lb-ticket-card {
+        margin-bottom: 1rem;
+    }
+
+    .lb-ack-preview {
+        padding: 1rem;
+    }
+
+}
