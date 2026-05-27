@@ -748,4 +748,4 @@ def add_comment(event_id):
             "main.event_details",
             event_id=event.id
         )
-    
+    )
