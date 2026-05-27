@@ -4,6 +4,7 @@ from wtforms.fields import SubmitField, StringField, PasswordField
 from wtforms.validators import InputRequired, Length, Email, EqualTo, Regexp, Optional
 from wtforms.fields import TextAreaField, SelectField, IntegerField, FloatField, DateField, TimeField
 from wtforms.validators import NumberRange
+from wtforms.validators import ValidationError
 
 class EventForm(FlaskForm):
     title = StringField("Event Title", validators=[InputRequired()])
@@ -56,6 +57,13 @@ class EventForm(FlaskForm):
     )
 
     submit = SubmitField("Save Event")
+    def validate_date(self, field):
+
+    if field.data < date.today():
+
+        raise ValidationError(
+            "Event date cannot be in the past."
+        )
 
 # creates the login information
 class LoginForm(FlaskForm):
