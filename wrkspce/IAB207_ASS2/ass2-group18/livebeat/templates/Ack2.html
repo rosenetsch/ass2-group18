@@ -1,393 +1,351 @@
 {% extends 'base.html' %}
-
-{% block title %}
-Acknowledgement to Country - LiveBeat
-{% endblock %}
-
+ 
+{% block title %}Acknowledgement to Country - LiveBeat{% endblock %}
+ 
 {% block content %}
-
-<section class="py-4">
-
+ 
+<!-- HERO -->
+<section class="lb-hero" style="min-height: 280px; max-height: 500px;">
+    <div class="lb-hero-grid"></div>
     <div class="container">
-
-        <!-- HERO -->
-
-        <div class="lb-ack-hero shadow-sm mb-4 text-center">
-
-            <h1 class="lb-ack-title mb-3">
-                Meaningful Acknowledgement to Country
-            </h1>
-
-            <p class="lb-ack-subtitle mb-0">
-                This feature helps event creators build respectful and meaningful
-                acknowledgement statements while promoting reconciliation,
-                cultural awareness, and respectful event practices.
-            </p>
-
-        </div>
-
-        <!-- MEANING -->
-
-        <div class="row g-3 mb-4">
-
-            <div class="col-md-6">
-
-                <div class="card lb-ack-card">
-
-                    <div class="card-body">
-
-                        <h3 class="lb-ack-section-title">
-                            Acknowledgement to Country
-                        </h3>
-
-                        <ul class="mb-0">
-
-                            <li>Can be spoken by anyone</li>
-
-                            <li>Used at meetings and events</li>
-
-                            <li>Shows respect to Traditional Custodians</li>
-
-                        </ul>
-
-                    </div>
-
-                </div>
-
+        <div class="row align-items-center" style="min-height: 280px;">
+            <div class="col-lg-7 lb-hero-content">
+                <div class="lb-hero-eyebrow">Cultural Awareness</div>
+                <h1>
+                    MEANINGFUL ACKNOWLEDGEMENT 
+                    <span class="highlight">TO COUNTRY</span>
+                </h1>
+                <p>
+                    Help event creators build respectful and meaningful Acknowledgement
+                    to Country statements that honour the Traditional Custodians of the land
+                    and support reconciliation.
+                </p>
             </div>
-
-            <div class="col-md-6">
-
-                <div class="card lb-ack-card">
-
-                    <div class="card-body">
-
-                        <h3 class="lb-ack-section-title">
-                            Welcome to Country
-                        </h3>
-
-                        <ul class="mb-0">
-
-                            <li>Performed by Elders or Traditional Custodians</li>
-
-                            <li>Formal welcome onto Country</li>
-
-                            <li>May include ceremonies and performances</li>
-
-                        </ul>
-
-                    </div>
-
-                </div>
-
-            </div>
-
         </div>
-
-        <!-- OPTIONS -->
-
-        <div class="card lb-ack-card mb-4">
-
-            <div class="card-body">
-
-                <h2 class="lb-ack-section-title">
-                    Acknowledgement Options
-                </h2>
-
-                <div class="row g-3">
-
-                    <div class="col-md-4">
-
-                        <div class="card lb-ack-mini-card">
-
-                            <div class="card-body">
-
-                                <span class="lb-ack-badge mb-3">
-                                    Option 1
-                                </span>
-
-                                <h5>No Acknowledgement</h5>
-
-                                <p class="mb-0">
-                                    No acknowledgement statement appears in event details.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-4">
-
-                        <div class="card lb-ack-mini-card">
-
-                            <div class="card-body">
-
-                                <span class="lb-ack-badge mb-3">
-                                    Option 2
-                                </span>
-
-                                <h5>Generic Acknowledgement</h5>
-
-                                <p class="mb-0">
-                                    Displays a respectful generic acknowledgement statement.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-4">
-
-                        <div class="card lb-ack-mini-card">
-
-                            <div class="card-body">
-
-                                <span class="lb-ack-badge mb-3">
-                                    Option 3
-                                </span>
-
-                                <h5>Enhanced Acknowledgement</h5>
-
-                                <p class="mb-0">
-                                    Includes educational guidance and research support.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- CAPITAL CITIES -->
-
-        <div class="card lb-ack-card mb-4">
-
-            <div class="card-body">
-
-                <h2 class="lb-ack-section-title">
-                    Traditional Custodians of Australian Capital Cities
-                </h2>
-
-                <div class="row g-3">
-
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card lb-city-card">
-                            <div class="card-body text-center">
-                                <h6>Canberra</h6>
-                                <p>Ngunnawal people</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card lb-city-card">
-                            <div class="card-body text-center">
-                                <h6>Sydney</h6>
-                                <p>Gadigal people</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card lb-city-card">
-                            <div class="card-body text-center">
-                                <h6>Melbourne</h6>
-                                <p>Wurundjeri people</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card lb-city-card">
-                            <div class="card-body text-center">
-                                <h6>Brisbane</h6>
-                                <p>Yuggera and Turrbal peoples</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card lb-city-card">
-                            <div class="card-body text-center">
-                                <h6>Perth</h6>
-                                <p>Whadjuk Noongar people</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card lb-city-card">
-                            <div class="card-body text-center">
-                                <h6>Adelaide</h6>
-                                <p>Kaurna people</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card lb-city-card">
-                            <div class="card-body text-center">
-                                <h6>Hobart</h6>
-                                <p>Muwinina people</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card lb-city-card">
-                            <div class="card-body text-center">
-                                <h6>Darwin</h6>
-                                <p>Larrakia people</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- MISTAKES -->
-
-        <div class="card lb-ack-card mb-4">
-
-            <div class="card-body">
-
-                <h2 class="lb-ack-section-title">
-                    Common Mistakes and Ethical Considerations
-                </h2>
-
-                <div class="alert alert-warning lb-ack-warning">
-
-                    <ul>
-
-                        <li>Copying acknowledgements without research</li>
-
-                        <li>Using incorrect Nation names</li>
-
-                        <li>Confusing Welcome to Country with Acknowledgement to Country</li>
-
-                        <li>Treating acknowledgements like a box-ticking activity</li>
-
-                        <li>Using culturally inappropriate wording</li>
-
-                    </ul>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- BUILDER -->
-
-        <div class="card lb-ack-card lb-ack-builder mb-4">
-
-            <div class="card-body">
-
-                <h2 class="lb-ack-section-title">
-                    Interactive Acknowledgement Builder
-                </h2>
-
-                <div class="row g-4">
-
-                    <div class="col-lg-6">
-
-                        <label class="form-label fw-semibold">
-                            Traditional Custodian Name
-                        </label>
-
-                        <input type="text"
-                               class="form-control mb-3"
-                               id="custodian"
-                               placeholder="e.g. Gadigal People">
-
-                        <label class="form-label fw-semibold">
-                            Event Name
-                        </label>
-
-                        <input type="text"
-                               class="form-control mb-3"
-                               id="event"
-                               placeholder="e.g. Music Festival">
-
-                        <label class="form-label fw-semibold">
-                            Additional Respectful Message
-                        </label>
-
-                        <textarea class="form-control mb-3"
-                                  rows="4"
-                                  id="extra">I recognise their continuing connection to Country, culture, and community.</textarea>
-
-                        <button class="btn lb-ack-btn"
-                                onclick="generateAcknowledgement()">
-
-                            Generate Acknowledgement
-
-                        </button>
-
-                    </div>
-
-                    <div class="col-lg-6">
-
-                        <div class="card lb-ack-preview">
-
-                            <div class="card-body">
-
-                                <h5 class="mb-3">
-                                    Preview
-                                </h5>
-
-                                <p id="previewText">
-                                    Your acknowledgement preview will appear here.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
     </div>
-
 </section>
-
+ 
+<!-- WHAT IS IT -->
+<section class="lb-section">
+    <div class="container">
+ 
+        <div class="row align-items-end mb-4">
+            <div class="col-md-6">
+                <div class="lb-section-label">Understanding the difference</div>
+                <h2 class="lb-section-title mb-0">AoC vs Welcome to Country</h2>
+            </div>
+        </div>
+ 
+        <div class="row g-4 mb-5">
+ 
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <h5 class="fw-semibold mb-3">Acknowledgement to Country</h5>
+                        <ul class="mb-0">
+                            <li class="mb-2">Can be spoken by anyone</li>
+                            <li class="mb-2">Used at the start of meetings and events</li>
+                            <li class="mb-2">Shows respect to Traditional Custodians</li>
+                            <li class="mb-0">Promotes reconciliation by recognising the enduring connection of First Nations peoples to their Country</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <h5 class="fw-semibold mb-3">Welcome to Country</h5>
+                        <ul class="mb-0">
+                            <li class="mb-2">Performed by Elders or Traditional Custodians only</li>
+                            <li class="mb-2">Formal welcome onto Country</li>
+                            <li class="mb-2">May include ceremonies and performances</li>
+                            <li class="mb-0">Must be arranged with the community in advance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+ 
+        </div>
+ 
+        <!-- OPTIONS -->
+ 
+        <div class="row align-items-end mb-4">
+            <div class="col-md-6">
+                <div class="lb-section-label">When creating an event</div>
+                <h2 class="lb-section-title mb-0">Acknowledgement Options</h2>
+            </div>
+        </div>
+ 
+        <div class="row g-4 mb-5">
+ 
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <span class="lb-badge lb-badge-inactive mb-3 d-inline-block">Option 1</span>
+                        <h5 class="fw-semibold">No Acknowledgement</h5>
+                        <p class="text-muted mb-0">No acknowledgement statement appears in event details.</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <span class="lb-badge lb-badge-open mb-3 d-inline-block">Option 2</span>
+                        <h5 class="fw-semibold">Generic Acknowledgement</h5>
+                        <p class="text-muted mb-0">Displays a respectful generic acknowledgement statement.</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <span class="lb-badge lb-badge-open mb-3 d-inline-block">Option 3</span>
+                        <h5 class="fw-semibold">Enhanced Acknowledgement</h5>
+                        <p class="text-muted mb-0">Includes educational guidance and research support.</p>
+                    </div>
+                </div>
+            </div>
+ 
+        </div>
+ 
+        <!-- CAPITAL CITIES -->
+ 
+        <div class="row align-items-end mb-4">
+            <div class="col-md-6">
+                <div class="lb-section-label">Research</div>
+                <h2 class="lb-section-title mb-0">Traditional Custodians of Capital Cities</h2>
+            </div>
+        </div>
+ 
+        <div class="row g-4 mb-5">
+ 
+            <div class="col-6 col-md-3">
+                <div class="card border-0 shadow-sm text-center h-100">
+                    <div class="card-body p-3">
+                        <h6 class="fw-semibold mb-1">Canberra</h6>
+                        <p class="text-muted small mb-0">Ngunnawal people</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-6 col-md-3">
+                <div class="card border-0 shadow-sm text-center h-100">
+                    <div class="card-body p-3">
+                        <h6 class="fw-semibold mb-1">Sydney</h6>
+                        <p class="text-muted small mb-0">Gadigal people</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-6 col-md-3">
+                <div class="card border-0 shadow-sm text-center h-100">
+                    <div class="card-body p-3">
+                        <h6 class="fw-semibold mb-1">Melbourne</h6>
+                        <p class="text-muted small mb-0">Wurundjeri people</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-6 col-md-3">
+                <div class="card border-0 shadow-sm text-center h-100">
+                    <div class="card-body p-3">
+                        <h6 class="fw-semibold mb-1">Brisbane</h6>
+                        <p class="text-muted small mb-0">Yuggera and Turrbal peoples</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-6 col-md-3">
+                <div class="card border-0 shadow-sm text-center h-100">
+                    <div class="card-body p-3">
+                        <h6 class="fw-semibold mb-1">Perth</h6>
+                        <p class="text-muted small mb-0">Whadjuk Noongar people</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-6 col-md-3">
+                <div class="card border-0 shadow-sm text-center h-100">
+                    <div class="card-body p-3">
+                        <h6 class="fw-semibold mb-1">Adelaide</h6>
+                        <p class="text-muted small mb-0">Kaurna people</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-6 col-md-3">
+                <div class="card border-0 shadow-sm text-center h-100">
+                    <div class="card-body p-3">
+                        <h6 class="fw-semibold mb-1">Hobart</h6>
+                        <p class="text-muted small mb-0">Muwinina people</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-6 col-md-3">
+                <div class="card border-0 shadow-sm text-center h-100">
+                    <div class="card-body p-3">
+                        <h6 class="fw-semibold mb-1">Darwin</h6>
+                        <p class="text-muted small mb-0">Larrakia people</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+ 
+       <!-- MISTAKES -->
+ 
+        <div class="row align-items-end mb-4">
+            <div class="col-md-6">
+                <div class="lb-section-label">Be aware</div>
+                <h2 class="lb-section-title mb-0">Common Mistakes and Ethical Considerations</h2>
+            </div>
+        </div>
+ 
+        <div class="row g-4 mb-5">
+ 
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <h6 class="fw-semibold mb-1"><i class="bi bi-x-circle-fill text-danger me-2"></i>Copying without research</h6>
+                        <p class="text-muted small mb-0">Don't copy acknowledgements without researching the correct Traditional Custodians for your specific location.</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <h6 class="fw-semibold mb-1"><i class="bi bi-x-circle-fill text-danger me-2"></i>Using incorrect Nation names</h6>
+                        <p class="text-muted small mb-0">Always verify the correct name of the Traditional Custodians for the land where your event is held.</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <h6 class="fw-semibold mb-1"><i class="bi bi-x-circle-fill text-danger me-2"></i>Confusing AoC with Welcome to Country</h6>
+                        <p class="text-muted small mb-0">These are different practices. Only Elders or Traditional Custodians can perform a Welcome to Country.</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <h6 class="fw-semibold mb-1"><i class="bi bi-x-circle-fill text-danger me-2"></i>Tokenistic box-ticking</h6>
+                        <p class="text-muted small mb-0">An acknowledgement should be genuine and meaningful, not just a formality to check off before an event.</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <h6 class="fw-semibold mb-1"><i class="bi bi-x-circle-fill text-danger me-2"></i>Culturally inappropriate wording</h6>
+                        <p class="text-muted small mb-0">Avoid language that is inaccurate, generalised or disrespectful of the culture being acknowledged.</p>
+                    </div>
+                </div>
+            </div>
+ 
+        </div>
+ 
+        <!-- BUILDER -->
+ 
+        <div class="row align-items-end mb-4">
+            <div class="col-md-6">
+                <div class="lb-section-label">Enhanced option</div>
+                <h2 class="lb-section-title mb-0">Interactive Acknowledgement Builder</h2>
+            </div>
+        </div>
+ 
+        <div class="row g-4 mb-5">
+ 
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+ 
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Traditional Custodian Name</label>
+                            <select class="form-select" id="custodian">
+                                <option value="">-- Select from capital cities --</option>
+                                <option value="Ngunnawal people">Canberra — Ngunnawal people</option>
+                                <option value="Gadigal people">Sydney — Gadigal people</option>
+                                <option value="Wurundjeri people">Melbourne — Wurundjeri people</option>
+                                <option value="Yuggera and Turrbal peoples">Brisbane — Yuggera and Turrbal peoples</option>
+                                <option value="Whadjuk Noongar people">Perth — Whadjuk Noongar people</option>
+                                <option value="Kaurna people">Adelaide — Kaurna people</option>
+                                <option value="Muwinina people">Hobart — Muwinina people</option>
+                                <option value="Larrakia people">Darwin — Larrakia people</option>
+                            </select>
+                        </div>
+ 
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Event Name</label>
+                            <select class="form-select" id="event">
+                                <option value="">-- Select an event --</option>
+                                {% for event in events %}
+                                <option value="{{ event.title }}">{{ event.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+ 
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Additional Respectful Message</label>
+                            <textarea class="form-control"
+                                      rows="4"
+                                      id="extra">I recognise their continuing connection to Country, culture, and community.</textarea>
+                        </div>
+ 
+                        <a href="#" class="lb-btn-primary" onclick="generateAcknowledgement(); return false;">
+                            Generate Acknowledgement
+                        </a>
+ 
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="lb-section-label mb-2">Preview</div>
+                        <h5 class="fw-semibold mb-3">Your Acknowledgement</h5>
+                        <p id="previewText" class="text-muted">
+                            Your acknowledgement preview will appear here.
+                        </p>
+                    </div>
+                </div>
+            </div>
+ 
+        </div>
+ 
+    </div>
+</section>
+ 
 <script>
-
+ 
 function generateAcknowledgement() {
-
+ 
     const custodian =
         document.getElementById('custodian').value;
-
+ 
     const event =
         document.getElementById('event').value;
-
+ 
     const extra =
         document.getElementById('extra').value;
-
+ 
     const text =
     `I would like to acknowledge the Traditional Custodians of the land on which we gather today, the ${custodian || 'Traditional Custodians'}, and pay my respects to Elders past and present. ${extra} As we come together for ${event || 'this event'}, we do so with respect and understanding.`;
-
+ 
     document.getElementById('previewText').innerText = text;
+    document.getElementById('previewText').classList.remove('text-muted');
 }
-
+ 
 </script>
-
+ 
 {% endblock %}
+ 
