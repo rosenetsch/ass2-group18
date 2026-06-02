@@ -326,23 +326,26 @@
 </section>
  
 <script>
+ 
 function generateAcknowledgement() {
-
+ 
     const custodian =
         document.getElementById('custodian').value;
-
+ 
     const event =
         document.getElementById('event').value;
-
+ 
     const extra =
         document.getElementById('extra').value;
-
+ 
     const text =
     `I would like to acknowledge the Traditional Custodians of the land on which we gather today, the ${custodian || 'Traditional Custodians'}, and pay my respects to Elders past and present. ${extra} As we come together for ${event || 'this event'}, we do so with respect and understanding.`;
-
+ 
     document.getElementById('previewText').innerText = text;
+    document.getElementById('previewText').classList.remove('text-muted');
 }
-
+ 
 </script>
-
+ 
 {% endblock %}
+ 
