@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+ 
 {% block title %}
 {% if editing %}
 Edit Event
@@ -8,337 +8,405 @@ Create Event
 {% endif %}
 - LiveBeat
 {% endblock %}
-
+ 
 {% block content %}
-
+ 
 <section class="py-5">
-
+ 
     <div class="container">
-
+ 
         <div class="row justify-content-center">
-
+ 
             <div class="col-lg-8">
-
+ 
                 <div class="card border-0 shadow-lg">
-
+ 
                     <div class="card-body p-5">
-
+ 
                         <h1 class="card-title mb-2">
-
+ 
                             {% if editing %}
                                 Edit Event
                             {% else %}
                                 Create a New Event
                             {% endif %}
-
+ 
                         </h1>
-
+ 
                         <p class="text-muted mb-4">
-
+ 
                             {% if editing %}
                                 Update the event details below.
                             {% else %}
                                 Enter the event details below.
                             {% endif %}
-
+ 
                         </p>
-
+ 
                         <form
                             method="POST"
                             enctype="multipart/form-data"
                             action="{% if editing %}{{ url_for('main.edit_event', event_id=event.id) }}{% else %}{{ url_for('main.create_event') }}{% endif %}"
                         >
-
+ 
                             {{ form.hidden_tag() }}
-
+ 
                             <!-- EVENT TITLE -->
-
+ 
                             <div class="mb-4">
-
+ 
                                 {{ form.title.label(class="form-label fw-semibold") }}
-
+ 
                                 {{ form.title(
                                     class="form-control form-control-lg",
                                     placeholder="e.g. Summer Music Festival 2026"
                                 ) }}
-
+ 
                                 {% for error in form.title.errors %}
                                     <div class="text-danger small mt-1">
                                         {{ error }}
                                     </div>
                                 {% endfor %}
-
+ 
                             </div>
-
-
+ 
+ 
                             <!-- ARTIST -->
-
+ 
                             <div class="mb-4">
-
+ 
                                 {{ form.artist.label(class="form-label fw-semibold") }}
-
+ 
                                 {{ form.artist(
                                     class="form-control form-control-lg",
                                     placeholder="e.g. The Rolling Stones"
                                 ) }}
-
+ 
                                 {% for error in form.artist.errors %}
                                     <div class="text-danger small mt-1">
                                         {{ error }}
                                     </div>
                                 {% endfor %}
-
+ 
                             </div>
-
-
+ 
+ 
                             <!-- DESCRIPTION -->
-
+ 
                             <div class="mb-4">
-
+ 
                                 {{ form.description.label(class="form-label fw-semibold") }}
-
+ 
                                 {{ form.description(
                                     class="form-control",
                                     rows="4",
                                     placeholder="Tell attendees about your event"
                                 ) }}
-
+ 
                                 {% for error in form.description.errors %}
                                     <div class="text-danger small mt-1">
                                         {{ error }}
                                     </div>
                                 {% endfor %}
-
+ 
                             </div>
-
-
+ 
+ 
                             <!-- CATEGORY + CAPACITY -->
-
+ 
                             <div class="row mb-4">
-
+ 
                                 <div class="col-md-6">
-
+ 
                                     {{ form.category.label(class="form-label fw-semibold") }}
-
+ 
                                     {{ form.category(
                                         class="form-select form-select-lg"
                                     ) }}
-
+ 
                                 </div>
-
+ 
                                 <div class="col-md-6">
-
+ 
                                     {{ form.capacity.label(class="form-label fw-semibold") }}
-
+ 
                                     {{ form.capacity(
                                         class="form-select form-select-lg"
                                     ) }}
-
+ 
                                 </div>
-
+ 
                             </div>
-
-
+ 
+ 
                             <!-- DATE + TIME -->
-
+ 
                             <div class="row mb-4">
-
+ 
                                 <div class="col-md-4">
-
+ 
                                     {{ form.date.label(class="form-label fw-semibold") }}
-
+ 
                                     {{ form.date(
                                         class="form-control form-control-lg",
                                         min=today
                                     ) }}
-
+ 
                                     {% for error in form.date.errors %}
                                         <div class="text-danger small mt-1">
                                             {{ error }}
                                         </div>
                                     {% endfor %}
-
+ 
                                 </div>
-
+ 
                                 <div class="col-md-4">
-
+ 
                                     {{ form.time.label(class="form-label fw-semibold") }}
-
+ 
                                     {{ form.time(
                                         class="form-control form-control-lg"
                                     ) }}
-
+ 
                                     {% for error in form.time.errors %}
                                         <div class="text-danger small mt-1">
                                             {{ error }}
                                         </div>
                                     {% endfor %}
-
+ 
                                 </div>
-
+ 
                                 <div class="col-md-4">
-
+ 
                                     {{ form.end_time.label(class="form-label fw-semibold") }}
-
+ 
                                     {{ form.end_time(
                                         class="form-control form-control-lg"
                                     ) }}
-
+ 
                                     {% for error in form.end_time.errors %}
                                         <div class="text-danger small mt-1">
                                             {{ error }}
                                         </div>
                                     {% endfor %}
-
+ 
                                 </div>
-
+ 
                             </div>
-
-
+ 
+ 
                             <!-- VENUE -->
-
+ 
                             <div class="mb-4">
-
+ 
                                 {{ form.venue_name.label(class="form-label fw-semibold") }}
-
+ 
                                 {{ form.venue_name(
                                     class="form-control form-control-lg",
                                     placeholder="e.g. Sydney Opera House"
                                 ) }}
-
+ 
                                 {% for error in form.venue_name.errors %}
                                     <div class="text-danger small mt-1">
                                         {{ error }}
                                     </div>
                                 {% endfor %}
-
+ 
                             </div>
-
+ 
                             <div class="mb-4">
-
+ 
                                 {{ form.venue_address.label(class="form-label fw-semibold") }}
-
+ 
                                 {{ form.venue_address(
                                     class="form-control form-control-lg",
                                     placeholder="e.g. Brisbane QLD"
                                 ) }}
-
+ 
                                 {% for error in form.venue_address.errors %}
                                     <div class="text-danger small mt-1">
                                         {{ error }}
                                     </div>
                                 {% endfor %}
-
+ 
                             </div>
-
-
+ 
+ 
                             <!-- TICKET PRICES -->
-
+ 
                             <div class="row mb-4">
-
+ 
                                 <div class="col-md-4">
-
+ 
                                     {{ form.standard_price.label(class="form-label fw-semibold") }}
-
+ 
                                     {{ form.standard_price(
                                         class="form-control form-control-lg",
                                         placeholder="AUD $"
                                     ) }}
-
+ 
                                     {% for error in form.standard_price.errors %}
                                         <div class="text-danger small mt-1">
                                             {{ error }}
                                         </div>
                                     {% endfor %}
-
+ 
                                 </div>
-
+ 
                                 <div class="col-md-4">
-
+ 
                                     {{ form.vip_price.label(class="form-label fw-semibold") }}
-
+ 
                                     {{ form.vip_price(
                                         class="form-control form-control-lg",
                                         placeholder="AUD $"
                                     ) }}
-
+ 
                                     {% for error in form.vip_price.errors %}
                                         <div class="text-danger small mt-1">
                                             {{ error }}
                                         </div>
                                     {% endfor %}
-
+ 
                                 </div>
-
+ 
                                 <div class="col-md-4">
-
+ 
                                     {{ form.premium_price.label(class="form-label fw-semibold") }}
-
+ 
                                     {{ form.premium_price(
                                         class="form-control form-control-lg",
                                         placeholder="AUD $"
                                     ) }}
-
+ 
                                     {% for error in form.premium_price.errors %}
                                         <div class="text-danger small mt-1">
                                             {{ error }}
                                         </div>
                                     {% endfor %}
-
+ 
                                 </div>
-
+ 
                             </div>
-
-
+ 
+ 
                             <!-- IMAGE -->
-
+ 
                             <div class="mb-4">
-
+ 
                                 {{ form.image.label(class="form-label fw-semibold") }}
-
+ 
                                 {{ form.image(
                                     class="form-control form-control-lg"
                                 ) }}
-
+ 
                                 <small class="text-muted">
                                     Upload JPG, JPEG, PNG or GIF image.
                                 </small>
-
+ 
                                 {% for error in form.image.errors %}
                                     <div class="text-danger small mt-1">
                                         {{ error }}
                                     </div>
                                 {% endfor %}
-
+ 
                             </div>
-
-
-                            <!-- ACKNOWLEDGEMENT -->
-
-                            <div class="mb-4">
-
-                                {{ form.acknowledgement.label(class="form-label fw-semibold") }}
-
-                                {{ form.acknowledgement(
-                                    class="form-select form-select-lg"
-                                ) }}
-
+ 
+ 
+                            <!-- ACKNOWLEDGEMENT (radio buttons, single choice) -->
+ 
+                            <style>
+                                /* Pure CSS, no JavaScript: each block is hidden by default
+                                   and only shown when its matching radio is selected. */
+                                .ack-generic,
+                                .ack-enhanced { display: none; }
+ 
+                                .ack-wrap:has(input[value="generic"]:checked) .ack-generic { display: block; }
+                                .ack-wrap:has(input[value="enhanced"]:checked) .ack-enhanced { display: block; }
+                            </style>
+ 
+                            <div class="mb-4 ack-wrap">
+ 
+                                {{ form.acknowledgement.label(class="form-label fw-semibold d-block") }}
+ 
+                                {% for subfield in form.acknowledgement %}
+                                    <div class="form-check">
+                                        {{ subfield(class="form-check-input") }}
+                                        {{ subfield.label(class="form-check-label") }}
+                                    </div>
+                                {% endfor %}
+ 
+                                {% for error in form.acknowledgement.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ error }}
+                                    </div>
+                                {% endfor %}
+ 
+                                <!-- Generic option: shown only when "Generic" is selected -->
+                                <div class="ack-generic alert alert-secondary mt-3">
+                                    <div class="fw-semibold small mb-1">
+                                        Generic acknowledgement (saved with your event):
+                                    </div>
+                                    <p class="mb-0">{{ generic_ack_text }}</p>
+                                </div>
+ 
+                                <!-- Enhanced builder: shown only when "Enhanced" is selected -->
+                                <div class="ack-enhanced mt-3">
+                                    <div class="card border-0 bg-light">
+                                        <div class="card-body">
+ 
+                                            <p class="fw-semibold mb-3">Build your enhanced acknowledgement</p>
+ 
+                                            <div class="mb-3">
+                                                {{ form.ack_custodian.label(class="form-label fw-semibold") }}
+                                                {{ form.ack_custodian(class="form-select") }}
+                                                {% for error in form.ack_custodian.errors %}
+                                                    <div class="text-danger small mt-1">{{ error }}</div>
+                                                {% endfor %}
+                                            </div>
+ 
+                                            <div class="mb-3">
+                                                {{ form.ack_extra.label(class="form-label fw-semibold") }}
+                                                {{ form.ack_extra(class="form-control", rows="3") }}
+                                            </div>
+ 
+                                            {{ form.confirm_ack(class="btn btn-outline-primary", formnovalidate=True) }}
+ 
+                                            {% if form.ack_confirmed.data %}
+                                                <div class="alert alert-success mt-3 mb-0">
+                                                    <div class="fw-semibold small mb-1">
+                                                        Confirmed acknowledgement (will be saved with your event):
+                                                    </div>
+                                                    <p class="mb-0">{{ form.ack_confirmed.data }}</p>
+                                                </div>
+                                            {% else %}
+                                                <p class="text-muted small mt-2 mb-0">
+                                                    Choose the custodian name that aligns with your event city, add any message you like, then select
+                                                    <strong>Confirm Acknowledgement</strong>. It will appear here for you to reviewand and will be
+                                                    ready to save with your event.
+                                                </p>
+                                            {% endif %}
+ 
+                                        </div>
+                                    </div>
+                                </div>
+ 
                             </div>
-
-
+ 
+ 
                             <!-- HELP -->
-
+ 
                             <div class="alert alert-info mb-4">
-
+ 
                                 <strong>Need help?</strong>
-
+ 
                                 <br>
-
+ 
                                 Learn more about Welcome to Country and
                                 Acknowledgement of Country.
-
+ 
                                 <br><br>
-
+ 
                                 <a
                                     href="{{ url_for('main.acknowledgement') }}"
                                     target="_blank"
@@ -346,63 +414,63 @@ Create Event
                                 >
                                     View Information
                                 </a>
-
+ 
                             </div>
-
-
+ 
+ 
                             <!-- TERMS -->
-
+ 
                             {% if not editing %}
-
+ 
                             <div class="mb-4">
-
+ 
                                 <div class="form-check">
-
+ 
                                     <input
                                         class="form-check-input"
                                         type="checkbox"
                                         id="termsCheck"
                                         required
                                     >
-
+ 
                                     <label
                                         class="form-check-label"
                                         for="termsCheck"
                                     >
-
+ 
                                         I agree to the LiveBeat
-
+ 
                                         <a
                                             href="{{ url_for('main.acknowledgement') }}"
                                             target="_blank"
                                         >
                                             Terms & Conditions
                                         </a>
-
+ 
                                     </label>
-
+ 
                                 </div>
-
+ 
                             </div>
-
+ 
                             {% endif %}
-
-
+ 
+ 
                             <!-- BUTTONS -->
-
+ 
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-
+ 
                                 {% if editing %}
-
+ 
                                     <a
                                         href="{{ url_for('main.event_details', event_id=event.id) }}"
                                         class="btn btn-outline-secondary btn-lg"
                                     >
                                         Back
                                     </a>
-
+ 
                                     {% if event.status != 'Cancelled' %}
-
+ 
                                     <button
                                         type="button"
                                         class="btn btn-outline-danger btn-lg"
@@ -411,83 +479,83 @@ Create Event
                                     >
                                         Cancel Event
                                     </button>
-
+ 
                                     {% endif %}
-
+ 
                                 {% else %}
-
+ 
                                     <a
                                         href="{{ url_for('main.index') }}"
                                         class="btn btn-outline-secondary btn-lg"
                                     >
                                         Cancel
                                     </a>
-
+ 
                                 {% endif %}
-
+ 
                                 {{ form.submit(
                                     class="btn btn-primary btn-lg",
                                     value="Save Event"
                                 ) }}
-
+ 
                             </div>
-
+ 
                         </form>
-
+ 
                     </div>
-
+ 
                 </div>
-
+ 
             </div>
-
+ 
         </div>
-
+ 
     </div>
-
+ 
 </section>
-
-
+ 
+ 
 <!-- CANCEL MODAL -->
-
+ 
 {% if editing and event.status != 'Cancelled' %}
-
+ 
 <div
     class="modal fade"
     id="cancelModal"
     tabindex="-1"
     aria-hidden="true"
 >
-
+ 
     <div class="modal-dialog modal-dialog-centered">
-
+ 
         <div class="modal-content">
-
+ 
             <div class="modal-header">
-
+ 
                 <h5 class="modal-title">
                     Cancel Event
                 </h5>
-
+ 
                 <button
                     type="button"
                     class="btn-close"
                     data-bs-dismiss="modal"
                 ></button>
-
+ 
             </div>
-
+ 
             <div class="modal-body">
-
+ 
                 Are you sure you want to cancel:
-
+ 
                 <strong>
                     {{ event.title }}
                 </strong>?
-
+ 
             </div>
-
+ 
             <div class="modal-footer">
-
+ 
                 <button
                     type="button"
                     class="btn btn-outline-secondary"
@@ -495,31 +563,31 @@ Create Event
                 >
                     Go Back
                 </button>
-
+ 
                 <form
                     method="POST"
                     action="{{ url_for('main.cancel_event', event_id=event.id) }}"
                 >
-
+ 
                     {{ form.hidden_tag() }}
-
+ 
                     <button
                         type="submit"
                         class="btn btn-danger"
                     >
                         Yes, Cancel Event
                     </button>
-
+ 
                 </form>
-
+ 
             </div>
-
+ 
         </div>
-
+ 
     </div>
-
+ 
 </div>
-
+ 
 {% endif %}
-
+ 
 {% endblock %}

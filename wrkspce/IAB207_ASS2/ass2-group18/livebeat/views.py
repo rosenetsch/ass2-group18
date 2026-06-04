@@ -15,6 +15,42 @@ main_bp = Blueprint("main", __name__)
  
  
 # =========================================
+# ACKNOWLEDGEMENT ENHANCED TEXT AND LOGIC
+# =========================================
+ 
+GENERIC_ACK_TEXT = (
+    "I'd like to begin by acknowledging the Traditional Owners of the land "
+    "on which we meet today. I would also like to pay my respects to Elders "
+    "past and present."
+)
+ 
+def build_enhanced_ack(form):
+    custodian = form.ack_custodian.data or "Traditional Custodians"
+    event_name = (form.title.data or "").strip() or "this event"
+    extra = (form.ack_extra.data or "").strip()
+ 
+    text = (
+        "I would like to acknowledge the Traditional Custodians of the land "
+        f"on which we gather today, the {custodian}, and pay my respects to "
+        "Elders past and present."
+    )
+    if extra:
+        text += f" {extra}"
+    text += (
+        f" As we come together for {event_name}, "
+        "we do so with respect and understanding."
+    )
+    return text
+ 
+def resolve_acknowledgement(form, existing=None):
+    choice = form.acknowledgement.data
+    if choice == "generic":
+        return GENERIC_ACK_TEXT
+    if choice == "enhanced":
+        return (form.ack_confirmed.data or "").strip() or existing
+    return None
+ 
+# =========================================
 # CONTEXT PROCESSOR
 # =========================================
  
@@ -87,7 +123,7 @@ def index():
  
  
 # =========================================
-# ACKNOWLEDGEMENT PAGE
+# ACKNOWLEDGEMENT PAGE (education only)
 # =========================================
  
 @main_bp.route("/acknowledgement")
@@ -136,7 +172,38 @@ def create_event():
     if request.method == "POST":
         print(form.errors)
  
+        # "Confirm Acknowledgement" pressed -> build + lock the text, do NOT save the event
+        if form.confirm_ack.data:
+            if form.acknowledgement.data == "enhanced":
+                if not form.ack_custodian.data:
+                    form.ack_custodian.errors = list(form.ack_custodian.errors) + [
+                        "Select the Traditional Custodians to build your acknowledgement."
+                    ]
+                else:
+                    form.ack_confirmed.data = build_enhanced_ack(form)
+                    flash("Acknowledgement confirmed — you can now save your event.")
+            return render_template(
+                "create-event.html",
+                form=form,
+                today=datetime.today().strftime("%Y-%m-%d"),
+                generic_ack_text=GENERIC_ACK_TEXT,
+            )
+ 
         if form.validate_on_submit():
+ 
+            # Enhanced selected but not confirmed -> block the save
+            if form.acknowledgement.data == "enhanced" and not (form.ack_confirmed.data or "").strip():
+                flash("Please confirm your enhanced acknowledgement before saving.")
+                form.ack_custodian.errors = list(form.ack_custodian.errors) + [
+                    "Build it and press Confirm Acknowledgement first."
+                ]
+                return render_template(
+                    "create-event.html",
+                    form=form,
+                    today=datetime.today().strftime("%Y-%m-%d"),
+                    generic_ack_text=GENERIC_ACK_TEXT,
+                )
+ 
             event_datetime = datetime.combine(form.date.data, form.time.data)
             image_filename = "concert1.jpg"
  
@@ -148,14 +215,11 @@ def create_event():
             ):
                 f = form.image.data
                 filename = secure_filename(f.filename)
-                upload_folder = os.path.join(
-                    current_app.root_path, "static", "images"
-                )
+                upload_folder = os.path.join(current_app.root_path, "static", "images")
                 os.makedirs(upload_folder, exist_ok=True)
                 f.save(os.path.join(upload_folder, filename))
                 image_filename = filename
  
-            # CREATE EVENT
             event = Event(
                 title=form.title.data,
                 artist=form.artist.data,
@@ -170,7 +234,7 @@ def create_event():
                 standard_price=form.standard_price.data,
                 vip_price=form.vip_price.data,
                 premium_price=form.premium_price.data,
-                acknowledgement=form.acknowledgement.data,
+                acknowledgement=resolve_acknowledgement(form),
                 user_id=current_user.id,
                 status="Open",
                 image=image_filename,
@@ -189,6 +253,7 @@ def create_event():
         "create-event.html",
         form=form,
         today=datetime.today().strftime("%Y-%m-%d"),
+        generic_ack_text=GENERIC_ACK_TEXT,
     )
  
  
@@ -206,7 +271,50 @@ def edit_event(event_id):
  
     form = EventForm(obj=event)
  
+    existing_enhanced = (
+        event.acknowledgement
+        if event.acknowledgement and event.acknowledgement != GENERIC_ACK_TEXT
+        else None
+    )
+ 
+    if form.confirm_ack.data:
+        # "Confirm Acknowledgement" pressed -> build + lock the text, do NOT save
+        if form.acknowledgement.data == "enhanced":
+            if not form.ack_custodian.data:
+                form.ack_custodian.errors = list(form.ack_custodian.errors) + [
+                    "Select the Traditional Custodians to build your acknowledgement."
+                ]
+            else:
+                form.ack_confirmed.data = build_enhanced_ack(form)
+                flash("Acknowledgement confirmed — you can now save your event.")
+        return render_template(
+            "create-event.html",
+            form=form,
+            editing=True,
+            event=event,
+            today=datetime.today().strftime("%Y-%m-%d"),
+            generic_ack_text=GENERIC_ACK_TEXT,
+            enhanced_ack_text=existing_enhanced,
+        )
+ 
     if form.validate_on_submit():
+ 
+        # Enhanced selected but not confirmed -> block the save
+        if form.acknowledgement.data == "enhanced" and not (form.ack_confirmed.data or "").strip():
+            flash("Please confirm your enhanced acknowledgement before saving.")
+            form.ack_custodian.errors = list(form.ack_custodian.errors) + [
+                "Build it and press Confirm Acknowledgement first."
+            ]
+            return render_template(
+                "create-event.html",
+                form=form,
+                editing=True,
+                event=event,
+                today=datetime.today().strftime("%Y-%m-%d"),
+                generic_ack_text=GENERIC_ACK_TEXT,
+                enhanced_ack_text=existing_enhanced,
+            )
+ 
         updated_start_datetime = datetime.combine(form.date.data, form.time.data)
  
         event.title = form.title.data
@@ -222,7 +330,8 @@ def edit_event(event_id):
         event.standard_price = form.standard_price.data
         event.vip_price = form.vip_price.data
         event.premium_price = form.premium_price.data
-        event.acknowledgement = form.acknowledgement.data
+ 
+        event.acknowledgement = resolve_acknowledgement(form, existing_enhanced)
  
         # IMAGE UPDATE
         if (
@@ -232,9 +341,7 @@ def edit_event(event_id):
         ):
             f = form.image.data
             filename = secure_filename(f.filename)
-            upload_folder = os.path.join(
-                current_app.root_path, "static", "images"
-            )
+            upload_folder = os.path.join(current_app.root_path, "static", "images")
             os.makedirs(upload_folder, exist_ok=True)
             f.save(os.path.join(upload_folder, filename))
             event.image = filename
@@ -254,12 +361,22 @@ def edit_event(event_id):
         form.time.data = event.time
         form.end_time.data = event.end_time
  
+        if not event.acknowledgement:
+            form.acknowledgement.data = "none"
+        elif event.acknowledgement == GENERIC_ACK_TEXT:
+            form.acknowledgement.data = "generic"
+        else:
+            form.acknowledgement.data = "enhanced"
+            form.ack_confirmed.data = event.acknowledgement
+ 
     return render_template(
         "create-event.html",
         form=form,
         editing=True,
         event=event,
         today=datetime.today().strftime("%Y-%m-%d"),
+        generic_ack_text=GENERIC_ACK_TEXT,
+        enhanced_ack_text=existing_enhanced,
     )
  
  
